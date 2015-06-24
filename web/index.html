@@ -1,0 +1,80 @@
+
+<html>
+	<head>
+		<title>Maps on Personalwerk.de</title>
+
+		<style type="text/css">
+			body {
+				padding: 0;
+				margin: 0;
+			}
+
+			.leaflet-container, body {
+				background-color: #B2B2B2 !important;
+			}
+
+			#map {
+				width: 100%;
+				height: 100%;
+			}
+		</style>
+		<link rel="stylesheet" href="leaflet-0.7.3/leaflet.css" />
+
+		<!-- load the leaflet javascript library -->
+		<script src="leaflet-0.7.3/leaflet.js"></script>
+		<script src="leaflet-plugins/Permalink.js"></script>
+		<script src="leaflet-plugins/Permalink.Layer.js"></script>
+		<script src="leaflet-plugins/Bing.js"></script>
+
+		<script type="text/javascript">
+			var attribution = 'Tiles under PD0, Data under OdbL';
+
+			function init()
+			{
+				var basemap = new L.BingLayer('AgUjrAV3ggamKtrsPI9ruw06v8vStpmRQlQ16te0eLfYKKF6ZLy-MIFx__84B_gQ', {
+					maxNativeZoom: 18,
+					maxZoom: 20
+				});
+
+				var noclinks = new L.TileLayer('http://render.personalwerk.de/tiles/campmap-noclinks/{z}/{x}/{y}.png', {
+					maxZoom: 20,
+					attribution: attribution,
+					scheme: 'xyz',
+					errorTileUrl: 'http://maps.personalwerk.de/404.png'
+				});
+
+				var layers = [basemap];
+				var optLayers = {
+					'noclinks': noclinks,
+				};
+
+				for (var key in optLayers)
+					layers.push(optLayers[key]);
+/*
+				var params = {};
+				window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
+					params[key] = decodeURIComponent(value);
+				});
+*/
+				var map = new L.Map('map', {
+					layers: layers,
+					center: new L.LatLng(53.03131, 13.30906),
+					zoom: 17,
+					//maxZoom: 18
+
+					//center: params.lat && params.lon ? new L.LatLng(params.lat, params.lon) : new L.LatLng(53.03131, 13.30906),
+					//zoom: params.zoom || 17
+				});
+
+				var layersControl = new L.Control.Layers({}, optLayers, {collapsed: false});
+				var permalinkControl = new L.Control.Permalink({layers: layersControl});
+				map.addControl(layersControl);
+				map.addControl(permalinkControl);
+			}
+		</script>
+	</head>
+
+	<body onload="init();">
+		<div id="map"></div>
+	</body>
+</html>
