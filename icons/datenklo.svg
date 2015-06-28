@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 15.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="580px"
+	 height="580px" viewBox="0 0 580 580" enable-background="new 0 0 580 580" xml:space="preserve">
+<g id="Layer_2">
+	<g id="g1327">
+		<path id="path1329" fill="#3F00FF" stroke="#EEEEEE" stroke-width="3.408" d="M66.275,1.768
+			c-41.335,0-64.571,21.371-64.571,65.036v450.123c0,40.844,20.894,62.229,62.192,62.229H515.92
+			c41.307,0,62.229-20.316,62.229-62.229V66.804c0-42.601-20.923-65.036-63.522-65.036C514.624,1.768,66.133,1.625,66.275,1.768z"/>
+	</g>
+</g>
+<g id="svg2" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" inkscape:output_extension="org.inkscape.output.svg.inkscape" inkscape:version="0.46" sodipodi:docname="waste_bin.svg" sodipodi:version="0.32">
+	<g>
+		<g>
+			<g>
+				<polygon fill="#FFFFFF" points="537.688,201.338 285.395,85.947 42.734,201.24 29.002,172.336 285.139,50.641 550.998,172.238 
+									"/>
+			</g>
+			<g>
+				<g>
+					<rect x="51.512" y="206.025" fill="#FFFFFF" width="15" height="323.334"/>
+				</g>
+				<g>
+					<rect x="513.488" y="206.025" fill="#FFFFFF" width="15" height="323.334"/>
+				</g>
+			</g>
+		</g>
+		<g>
+			<path fill="#FFFFFF" d="M289.232,388.348c-17.708-14.512-38.091-33.916-55.796-55.797c-12.36-15.424-23.382-31.533-12.035-42.882
+				l-79.503-79.373c-11.577,14.381-37.208,83.32,72.787,196.119c115.928,118.865,190.735,93.43,203.65,80.059l-77.516-77.514
+				C329.992,419.783,316.068,410.164,289.232,388.348z"/>
+			<path fill="#FFFFFF" d="M376.464,373.121l-21.98,21.979l77.71,77.709c0,0,21.979-21.85,21.914-21.914l0.065-0.064l0.032,0.031
+				c5.022-5.02,4.533-12.684-0.064-17.283v-0.129c0,0-60.459-60.33-60.525-60.395C388.854,368.293,381.191,368.391,376.464,373.121z
+				"/>
+			<path fill="#FFFFFF" d="M257.208,253.863c5.022-5.022,4.533-12.685-0.065-17.284l0.065-0.065c0,0-62.222-62.091-62.287-62.156
+				c-4.761-4.761-12.425-4.663-17.152,0.065l-21.98,21.98l79.44,79.439l21.979-21.849V253.863z"/>
+		</g>
+	</g>
+</g>
+</svg>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE Map [
+	<!ENTITY % entities SYSTEM "inc/entities.xml">
+	%entities;
+
+	<!ENTITY sz_text "14">
+	<!ENTITY sz_text_small "12">
+
+	<!ENTITY c_noc_fibre "#00D4FF">
+	<!ENTITY c_noc_fibre_text "#0088A3">
+
+	<!ENTITY c_noc_copper "#FF9442">
+	<!ENTITY c_noc_copper_text "#C47233">
+
+	<!ENTITY c_noc_datenklo "#3F00FF">
+	<!ENTITY c_noc_ap "#7BD8C1">
+]>
+<Map background-color="transparent" srs="&srs900913;" minimum-version="2.1.0">
+	&fontset-settings;
+
+	<Style name="noc-lines-halo">
+		<Rule>
+			<Filter>[noctype] = 'fibre'</Filter>
+			<LineSymbolizer stroke="white" stroke-width="4" stroke-opacity="0.75" stroke-linecap="round" />
+		</Rule>
+		<Rule>
+			<Filter>[noctype] = 'copper'</Filter>
+			<LineSymbolizer stroke="white" stroke-width="4" stroke-opacity="0.75" stroke-linecap="round" />
+		</Rule>
+	</Style>
+
+	<Style name="noc-lines-fill">
+		<Rule>
+			<Filter>[noctype] = 'fibre'</Filter>
+			<LineSymbolizer stroke="&c_noc_fibre;" stroke-width="2" stroke-opacity="0.75" stroke-linecap="round" />
+		</Rule>
+		<Rule>
+			<Filter>[noctype] = 'copper'</Filter>
+			<LineSymbolizer stroke="&c_noc_copper;" stroke-width="2" stroke-opacity="0.75" stroke-linecap="round" />
+		</Rule>
+	</Style>
+
+	<Style name="noc-lines-text">
+		<Rule>
+			<Filter>[noctype] = 'fibre'</Filter>
+			<TextSymbolizer fill="&c_noc_fibre_text;" halo-fill="white" halo-radius="1.5" fontset-name="book-fonts" size="&sz_text;" placement="line">[name]</TextSymbolizer>
+		</Rule>
+		<Rule>
+			<Filter>[noctype] = 'copper'</Filter>
+			<TextSymbolizer fill="&c_noc_copper_text;" halo-fill="white" halo-radius="1.5" fontset-name="book-fonts" size="&sz_text;" placement="line">[name]</TextSymbolizer>
+		</Rule>
+	</Style>
+
+	<Layer name="noc-lines" status="on" srs="&srs900913;">
+		<StyleName>noc-lines-halo</StyleName>
+		<StyleName>noc-lines-fill</StyleName>
+		<StyleName>noc-lines-text</StyleName>
+
+		<Datasource>
+			<Parameter name="table">
+			(
+				SELECT
+					way,
+					tags->'name' as name,
+					tags->'noc:type' as noctype
+				FROM planet_osm_line
+				WHERE
+					tags ? 'noc:type'
+			) AS subq
+			</Parameter>
+			<Parameter name="geometry_field">way</Parameter>
+
+			&datasource-settings;
+		</Datasource>
+	</Layer>
+
+
+	<Style name="noc-points">
+		<Rule>
+			<Filter>[noctype] = 'datenklo'</Filter>
+			<PointSymbolizer file="../icons/datenklo.svg" transform="scale(0.05)" />
+			<TextSymbolizer fill="&c_noc_datenklo;" dy="20" halo-fill="white" halo-radius="1.5" fontset-name="book-fonts" size="&sz_text;" placement="point">[name]</TextSymbolizer>
+		</Rule>
+
+		<Rule>
+			<Filter>[noctype] = 'ap'</Filter>
+			<PointSymbolizer file="../icons/ap.svg" transform="scale(0.025)" />
+			<TextSymbolizer fill="&c_noc_ap;" dy="15" halo-fill="white" halo-radius="1.5" fontset-name="book-fonts" size="&sz_text_small;" placement="point">[name]</TextSymbolizer>
+		</Rule>
+
+		<Rule>
+			<Filter>[noctype] = 'ibc'</Filter>
+			<PointSymbolizer file="../icons/ibc.svg" transform="scale(0.025)" />
+		</Rule>
+	</Style>
+
+	<Layer name="noc-points" status="on" srs="&srs900913;">
+		<StyleName>noc-points</StyleName>
+
+		<Datasource>
+			<Parameter name="table">
+			(
+				SELECT
+					way,
+					tags->'name' as name,
+					tags->'noc:type' as noctype
+				FROM planet_osm_point
+				WHERE
+					tags->'noc:type' IN ('datenklo', 'ap', 'ibc')
+			) AS subq
+			</Parameter>
+			<Parameter name="geometry_field">way</Parameter>
+
+			&datasource-settings;
+		</Datasource>
+	</Layer>
+</Map>
