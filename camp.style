@@ -76,6 +76,27 @@
 node,way   z_order      int4         linear # This is calculated during import
 way        way_area     real                # This is calculated during import
 
+node,way   aeroway      text         phstore
+node,way   amenity      text         phstore
+node,way   building     text         phstore
+node,way   harbour      text         phstore
+node,way   historic     text         phstore
+node,way   landuse      text         phstore
+node,way   leisure      text         phstore
+node,way   man_made     text         phstore
+node,way   military     text         phstore
+node,way   natural      text         phstore  # natural=coastline tags are discarded by a hard coded rule in osm2pgsql
+node,way   office       text         phstore
+node,way   place        text         phstore
+node,way   power        text         phstore
+node,way   public_transport text     phstore
+node,way   shop         text         phstore
+node,way   sport        text         phstore
+node,way   tourism      text         phstore
+node,way   water        text         phstore
+node,way   waterway     text         phstore
+node,way   wetland      text         phstore
+
 # Deleted tags
 # These are tags that are generally regarded as useless for most rendering.
 # Most of them are from imports or intended as internal information for mappers
