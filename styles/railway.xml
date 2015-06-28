@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE Map [
+	<!ENTITY % entities SYSTEM "inc/entities.xml">
+	%entities;
+
+	<!ENTITY sz_text "14">
+
+	<!ENTITY c_railway_dark "#444444">
+	<!ENTITY c_railway_light "#FFFFFF">
+]>
+<Map background-color="transparent" srs="&srs900913;" minimum-version="2.1.0">
+	&fontset-settings;
+
+	<Style name="railway-casing">
+		<Rule>
+			<LineSymbolizer stroke="&c_railway_dark;" stroke-width="3" stroke-opacity="1.0" stroke-linejoin="round" />
+		</Rule>
+	</Style>
+
+	<Style name="railway-fill">
+		<Rule>
+			<LineSymbolizer stroke="&c_railway_light;" stroke-width="1" stroke-opacity="1.0" stroke-linejoin="round" stroke-dasharray="0,11,8,1" />
+		</Rule>
+	</Style>
+
+	<Layer name="railways" status="on" srs="&srs900913;">
+		<StyleName>railway-casing</StyleName>
+		<StyleName>railway-fill</StyleName>
+
+		<Datasource>
+			<Parameter name="table">
+			(
+				SELECT
+					way,
+					tags->'name' as name
+				FROM planet_osm_line
+				WHERE
+					tags ? 'railway'
+			) AS subq
+			</Parameter>
+			<Parameter name="geometry_field">way</Parameter>
+
+			&datasource-settings;
+		</Datasource>
+	</Layer>
+</Map>

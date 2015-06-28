@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE Map [
+	<!ENTITY % entities SYSTEM "inc/entities.xml">
+	%entities;
+
+	<!ENTITY sz_text "14">
+
+	<!ENTITY c_building "#C17236">
+	<!ENTITY c_building_text "#894F26">
+]>
+<Map background-color="transparent" srs="&srs900913;" minimum-version="2.1.0">
+	&fontset-settings;
+
+	<Style name="building">
+		<Rule>
+			<PolygonSymbolizer fill="&c_building;" fill-opacity="0.5" />
+			<LineSymbolizer stroke="&c_building;" stroke-width="2" stroke-opacity="1.0" stroke-linejoin="round" />
+		</Rule>
+	</Style>
+
+	<Style name="building-text">
+		<Rule>
+			<TextSymbolizer fill="&c_building_text;" halo-fill="white" halo-radius="1.5" fontset-name="book-fonts" size="&sz_text;" placement="interior">[name]</TextSymbolizer>
+		</Rule>
+	</Style>
+
+	<Layer name="buildings" status="on" srs="&srs900913;">
+		<StyleName>building</StyleName>
+		<StyleName>building-text</StyleName>
+
+		<Datasource>
+			<Parameter name="table">
+			(
+				SELECT
+					way,
+					tags->'name' as name
+				FROM planet_osm_polygon
+				WHERE
+					(tags ? 'building' AND tags->'building' != 'tent') OR
+					(tags->'amenity' = 'hospital') OR
+					(tags->'amenity' = 'place_of_worship')
+			) AS subq
+			</Parameter>
+			<Parameter name="geometry_field">way</Parameter>
+
+			&datasource-settings;
+		</Datasource>
+	</Layer>
+</Map>
