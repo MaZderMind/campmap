@@ -10,17 +10,26 @@
 			}
 
 			.leaflet-container, body {
-				background-color: #B2B2B2 !important;
+				background-color: black;
 			}
 
 			#map {
 				width: 100%;
 				height: 100%;
 			}
+
+			.leaflet-control-layers ul {
+				padding-left: 22px;
+			}
+
+			.leaflet-control-layers ul li {
+				cursor: pointer;
+			}
 		</style>
 		<link rel="stylesheet" href="leaflet-0.7.3/leaflet.css" />
 
 		<!-- load the leaflet javascript library -->
+		<script src="jquery-1.11.3.min.js"></script>
 		<script src="leaflet-0.7.3/leaflet.js"></script>
 		<script src="leaflet-plugins/Permalink.js"></script>
 		<script src="leaflet-plugins/Permalink.Layer.js"></script>
@@ -33,43 +42,65 @@
 			{
 				var basemap = new L.BingLayer('AgUjrAV3ggamKtrsPI9ruw06v8vStpmRQlQ16te0eLfYKKF6ZLy-MIFx__84B_gQ', {
 					maxNativeZoom: 18,
-					maxZoom: 20
-				});
-
-				var noclinks = new L.TileLayer('http://render.personalwerk.de/tiles/campmap-noclinks/{z}/{x}/{y}.png', {
 					maxZoom: 20,
-					attribution: attribution,
-					scheme: 'xyz',
-					errorTileUrl: 'http://maps.personalwerk.de/404.png'
+					attribution: '',
+
+					opacity: 0.50
 				});
 
+				var initial_overlays = ['railway', 'buildings', 'tents', 'noc'];
+				var overlays = ['datenklo_area', 'railway', 'buildings', 'tents', 'noc'];
 				var layers = [basemap];
-				var optLayers = {
-					'noclinks': noclinks,
+				var overlayers = {};
+				for (var i = 0; i < overlays.length; i++) {
+					var name = overlays[i]
+					overlayers[name] = new L.TileLayer('http://render.personalwerk.de/tiles/campmap-'+name+'/{z}/{x}/{y}.png', {
+						maxZoom: 20,
+						attribution: attribution,
+						scheme: 'xyz',
+						errorTileUrl: 'http://maps.personalwerk.de/404.png'
+					});
 				};
 
-				for (var key in optLayers)
-					layers.push(optLayers[key]);
-/*
-				var params = {};
-				window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
-					params[key] = decodeURIComponent(value);
-				});
-*/
+				for (var i = 0; i < initial_overlays.length; i++) {
+					var key = initial_overlays[i];
+					layers.push(overlayers[key]);
+				};
+
 				var map = new L.Map('map', {
 					layers: layers,
 					center: new L.LatLng(53.03131, 13.30906),
 					zoom: 17,
-					//maxZoom: 18
-
-					//center: params.lat && params.lon ? new L.LatLng(params.lat, params.lon) : new L.LatLng(53.03131, 13.30906),
-					//zoom: params.zoom || 17
 				});
 
-				var layersControl = new L.Control.Layers({}, optLayers, {collapsed: false});
+				var layersControl = new L.Control.Layers({}, overlayers, {collapsed: false});
 				var permalinkControl = new L.Control.Permalink({layers: layersControl});
 				map.addControl(layersControl);
 				map.addControl(permalinkControl);
+
+				var scaleControl = new L.Control.Scale();
+				map.addControl(scaleControl);
+
+				var $ul = $('<ul>');
+
+				$.each([100, 75, 50, 25, 0], function(idx, opacity) {
+					$('<li>').text('Background '+opacity+'%').on('click', function() {
+						basemap.setOpacity(opacity/100);
+					}).appendTo($ul);
+				});
+
+				$('<li>').text('Background White').on('click', function() {
+					$('.leaflet-container, body').css('background-color', 'white');
+				}).appendTo($ul);
+
+				$('<li>').text('Background Black').on('click', function() {
+					$('.leaflet-container, body').css('background-color', 'black');
+				}).appendTo($ul);
+
+				$('.leaflet-control-layers-list').append([
+					'<hr>',
+					$ul
+				]);
 			}
 		</script>
 	</head>

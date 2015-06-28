@@ -24,12 +24,41 @@ L.Control.Permalink.include({
 		var layer = this.options.layers.currentBaseLayer();
 		if (layer)
 			this._update({layer: layer.name});
+
+		var enabledOverlays = [];
+		for (var idx in this.options.layers._layers) {
+			var layer = this.options.layers._layers[idx];
+			if(layer.overlay && layer.layer._leaflet_id in this._map._layers)
+				enabledOverlays.push(layer.name);
+		}
+
+		if(enabledOverlays.length > 0)
+			this._update({overlays: enabledOverlays.join('.')});
 	},
 
 	_set_layer: function(e) {
 		var p = e.params;
-		if (!this.options.layers || !p.layer) return;
-		this.options.layers.chooseBaseLayer(p.layer);
+		if (!this.options.layers) return;
+		if (p.layer)
+			this.options.layers.chooseBaseLayer(p.layer);
+
+		if (p.overlays) {
+			var overlays = p.overlays.split('.');
+
+			for (var idx in this.options.layers._layers) {
+				var layer = this.options.layers._layers[idx];
+
+				if(!layer.overlay) continue;
+
+				if(layer.layer._leaflet_id in this._map._layers && overlays.indexOf(layer.name) == -1) {
+					this._map.removeLayer(layer.layer);
+				}
+				else if(!(layer.layer._leaflet_id in this._map._layers) && overlays.indexOf(layer.name) != -1) {
+					this._map.addLayer(layer.layer);
+				}
+			}
+
+		}
 	}
 });
 
