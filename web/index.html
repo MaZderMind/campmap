@@ -23,8 +23,17 @@
 				padding-left: 22px;
 			}
 
-			.leaflet-control-layers ul li {
-				cursor: pointer;
+			.leaflet-control-layers ul li.gap {
+				margin-top: 10px;
+			}
+
+			.leaflet-control-layers ul li .leaflet-control {
+				float: none;
+				padding: 0;
+			}
+
+			.leaflet-control-layers ul li a {
+				text-decoration: none;
 			}
 		</style>
 
@@ -85,22 +94,26 @@
 				var $ul = $('<ul>');
 
 				$.each([100, 75, 50, 25, 0], function(idx, opacity) {
-					$('<li>').text('Background '+opacity+'%').on('click', function() {
+					$('<li>').append( $('<a href="javascript:;">').text('Background '+opacity+'%').on('click', function() {
 						basemap.setOpacity(opacity/100);
-					}).appendTo($ul);
+					})).appendTo($ul);
 				});
 
-				$('<li>').text('Background White').on('click', function() {
+				$('<li class="gap">').append( $('<a href="javascript:;">').text('Background White').on('click', function() {
 					$('.leaflet-container, body').css('background', 'white');
-				}).appendTo($ul);
+				})).appendTo($ul);
 
-				$('<li>').text('Background Black').on('click', function() {
+				$('<li>').append( $('<a href="javascript:;">').text('Background Black').on('click', function() {
 					$('.leaflet-container, body').css('background', 'black');
-				}).appendTo($ul);
+				})).appendTo($ul);
+
+				$('<li class="gap">')
+					.append( $('.leaflet-control-permalink') )
+					.appendTo($ul);
 
 				$('.leaflet-control-layers-list').append([
 					'<hr>',
-					$ul
+					$ul,
 				]);
 			}
 		</script>
