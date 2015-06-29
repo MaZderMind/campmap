@@ -20,6 +20,7 @@
 
 	<Style name="building-text">
 		<Rule>
+			<Filter>[amenity]</Filter>
 			<TextSymbolizer fill="&c_building_text;" halo-fill="white" halo-radius="1.5" fontset-name="book-fonts" size="&sz_text;" placement="interior">[name]</TextSymbolizer>
 		</Rule>
 	</Style>
@@ -33,7 +34,9 @@
 			(
 				SELECT
 					way,
-					tags->'name' as name
+					tags->'name' as name,
+					tags->'amenity' as amenity,
+					tags->'building' as building
 				FROM planet_osm_polygon
 				WHERE
 					(tags ? 'building' AND tags->'building' != 'tent') OR
