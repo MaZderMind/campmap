@@ -130,6 +130,32 @@
 					.append( $('.leaflet-control-draw-measure').text('Measure distances') )
 					.appendTo($ul);
 
+				var $hires = $('<a href="#" target="blank">').text('HiRes Export').on('click', function(e) {
+					// 
+				});
+
+				function updateHiRes() {
+					var enabledOverlays = [];
+					for (var idx in layersControl._layers) {
+						var layer = layersControl._layers[idx];
+						if(layer.overlay && layer.layer._leaflet_id in map._layers)
+							enabledOverlays.push(layer.name);
+					}
+
+					var bounds = map.getBounds();
+					$hires.attr('href',
+						'export/'+L.Util.getParamString({
+							bbox: bounds.getSouthWest().lng+','+bounds.getSouthWest().lat+','+bounds.getNorthEast().lng+','+bounds.getNorthEast().lat,
+							zoom: map.getZoom(),
+							overlays: enabledOverlays.join('.')
+						})
+					)
+				}
+				map.on('moveend overlayadd overlayremove', updateHiRes);
+				updateHiRes();
+
+				$('<li>').append($hires).appendTo($ul);
+
 				$('.leaflet-control-layers-list').append([
 					'<hr>',
 					$ul,
