@@ -3,6 +3,7 @@
 	<head>
 		<title>Maps on Personalwerk.de</title>
 
+		<link rel="stylesheet" href="leaflet-0.7.3/leaflet.css" />
 		<style type="text/css">
 			body {
 				padding: 0;
@@ -10,7 +11,7 @@
 			}
 
 			.leaflet-container, body {
-				background-color: black;
+				background: black;
 			}
 
 			#map {
@@ -26,7 +27,6 @@
 				cursor: pointer;
 			}
 		</style>
-		<link rel="stylesheet" href="leaflet-0.7.3/leaflet.css" />
 
 		<!-- load the leaflet javascript library -->
 		<script src="jquery-1.11.3.min.js"></script>
@@ -48,13 +48,13 @@
 					opacity: 0.50
 				});
 
-				var initial_overlays = ['railway', 'buildings', 'tents', 'noc'];
-				var overlays = ['datenklo_area', 'railway', 'buildings', 'tents', 'noc'];
+				var initial_overlays = ['landuse', 'ways', 'buildings', 'tents', 'noc'];
+				var overlays =         ['landuse', 'ways', 'buildings', 'tents', 'noc', 'gpscoords'];
 				var layers = [basemap];
 				var overlayers = {};
 				for (var i = 0; i < overlays.length; i++) {
 					var name = overlays[i]
-					overlayers[name] = new L.TileLayer('http://render.personalwerk.de/tiles/campmap-'+name+'/{z}/{x}/{y}.png', {
+					overlayers[name] = new L.TileLayer('http://campmap.mazdermind.de/tiles/campmap-'+name+'/{z}/{x}/{y}.png', {
 						maxZoom: 20,
 						attribution: attribution,
 						scheme: 'xyz',
@@ -72,6 +72,7 @@
 					center: new L.LatLng(53.03131, 13.30906),
 					zoom: 17,
 				});
+				window.map = map;
 
 				var layersControl = new L.Control.Layers({}, overlayers, {collapsed: false});
 				var permalinkControl = new L.Control.Permalink({layers: layersControl});
@@ -90,11 +91,11 @@
 				});
 
 				$('<li>').text('Background White').on('click', function() {
-					$('.leaflet-container, body').css('background-color', 'white');
+					$('.leaflet-container, body').css('background', 'white');
 				}).appendTo($ul);
 
 				$('<li>').text('Background Black').on('click', function() {
-					$('.leaflet-container, body').css('background-color', 'black');
+					$('.leaflet-container, body').css('background', 'black');
 				}).appendTo($ul);
 
 				$('.leaflet-control-layers-list').append([
