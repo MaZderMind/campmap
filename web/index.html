@@ -1,7 +1,7 @@
 
 <html>
 	<head>
-		<title>Maps on Personalwerk.de</title>
+		<title>The CampMap!</title>
 
 		<link rel="stylesheet" href="leaflet-0.7.3/leaflet.css" />
 		<link rel="stylesheet" href="leaflet-plugins/Leaflet.Draw/leaflet.draw.css" />
@@ -57,6 +57,7 @@
 
 			function init()
 			{
+				////////// MAP SETUP //////////
 				var basemap = new L.BingLayer('AgUjrAV3ggamKtrsPI9ruw06v8vStpmRQlQ16te0eLfYKKF6ZLy-MIFx__84B_gQ', {
 					maxNativeZoom: 18,
 					maxZoom: 20,
@@ -99,7 +100,12 @@
 
 				var scaleControl = new L.Control.Scale();
 				map.addControl(scaleControl);
+				////////// END MAP SETUP //////////
 
+
+
+
+				////////// TOOLBOX SETUP //////////
 				var $ul = $('<ul>');
 
 				$.each([100, 75, 50, 25, 0], function(idx, opacity) {
@@ -128,6 +134,7 @@
 					'<hr>',
 					$ul,
 				]);
+				////////// END TOOLBOX SETUP //////////
 			}
 		</script>
 	</head>
