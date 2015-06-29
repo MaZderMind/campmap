@@ -3,40 +3,55 @@
 	<!ENTITY % entities SYSTEM "inc/entities.xml">
 	%entities;
 
-	<!ENTITY sz_text "14">
+	<!ENTITY sz_text "12">
 
-	<!ENTITY c_tent "#FFF200">
-	<!ENTITY c_tent_text "#706400">
+	<!ENTITY c_industrial "#ECD8FF">
+	<!ENTITY c_industrial_text "#756C7F">
+
+	<!ENTITY c_residential "#f0f0f0">
+	<!ENTITY c_residential_text "#7C7C7C">
 ]>
 <Map background-color="transparent" srs="&srs900913;" minimum-version="2.1.0">
 	&fontset-settings;
 
-	<Style name="tent">
+	<Style name="landuse">
 		<Rule>
-			<PolygonSymbolizer fill="&c_tent;" fill-opacity="0.25" />
-			<LineSymbolizer stroke="&c_tent;" stroke-width="2" stroke-opacity="0.75" stroke-linejoin="round" />
+			<Filter>[landuse] = 'residential'</Filter>
+			<PolygonSymbolizer fill="&c_residential;" fill-opacity="0.5" />
+			<LineSymbolizer stroke="&c_residential;" stroke-width="3" stroke-opacity="0.75" stroke-linejoin="round" />
+		</Rule>
+		<Rule>
+			<Filter>[landuse] = 'industrial'</Filter>
+			<PolygonSymbolizer fill="&c_industrial;" fill-opacity="0.5" />
+			<LineSymbolizer stroke="&c_industrial;" stroke-width="3" stroke-opacity="0.75" stroke-linejoin="round" />
 		</Rule>
 	</Style>
 
-	<Style name="tent-text">
+	<Style name="landuse-text">
 		<Rule>
-			<TextSymbolizer fill="&c_tent_text;" halo-fill="white" halo-radius="1.5" fontset-name="book-fonts" size="&sz_text;" placement="interior">[name]</TextSymbolizer>
+			<Filter>[landuse] = 'residential'</Filter>
+			<TextSymbolizer fill="&c_residential_text;" halo-fill="white" halo-radius="1.5" spacing="50" fontset-name="book-fonts" size="&sz_text;" placement="line">[name]</TextSymbolizer>
+		</Rule>
+		<Rule>
+			<Filter>[landuse] = 'industrial'</Filter>
+			<TextSymbolizer fill="&c_industrial_text;" halo-fill="white" halo-radius="1.5" spacing="50" fontset-name="book-fonts" size="&sz_text;" placement="line">[name]</TextSymbolizer>
 		</Rule>
 	</Style>
 
 	<Layer name="tents" status="on" srs="&srs900913;">
-		<StyleName>tent</StyleName>
-		<StyleName>tent-text</StyleName>
+		<StyleName>landuse</StyleName>
+		<StyleName>landuse-text</StyleName>
 
 		<Datasource>
 			<Parameter name="table">
 			(
 				SELECT
 					way,
-					tags->'name' as name
+					tags->'name' as name,
+					tags->'landuse' as landuse
 				FROM planet_osm_polygon
 				WHERE
-					(tags->'building' = 'tent')
+					(tags ? 'landuse')
 			) AS subq
 			</Parameter>
 			<Parameter name="geometry_field">way</Parameter>

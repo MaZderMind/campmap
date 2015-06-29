@@ -78,14 +78,12 @@
 	<Style name="noc-points">
 		<Rule>
 			<Filter>[noctype] = 'datenklo'</Filter>
-			<PointSymbolizer file="../icons/datenklo.svg" transform="scale(0.05)" />
-			<TextSymbolizer fill="&c_noc_datenklo;" dy="20" halo-fill="white" halo-radius="1.5" fontset-name="book-fonts" size="&sz_text;" placement="point">[name]</TextSymbolizer>
+			<ShieldSymbolizer file="../icons/datenklo.svg" transform="scale(0.05)" fill="&c_noc_datenklo;" dy="20" halo-fill="white" halo-radius="1.5" fontset-name="book-fonts" size="&sz_text;" placement="point">[name]</ShieldSymbolizer>
 		</Rule>
 
 		<Rule>
 			<Filter>[noctype] = 'ap'</Filter>
-			<PointSymbolizer file="../icons/ap.svg" transform="scale(0.025)" />
-			<TextSymbolizer fill="&c_noc_ap;" dy="15" halo-fill="white" halo-radius="1.5" fontset-name="book-fonts" size="&sz_text_small;" placement="point">[name]</TextSymbolizer>
+			<ShieldSymbolizer file="../icons/ap.svg" transform="scale(0.025)" fill="&c_noc_ap;" dy="15" halo-fill="white" halo-radius="1.5" fontset-name="book-fonts" size="&sz_text_small;" placement="point">[name]</ShieldSymbolizer>
 		</Rule>
 
 		<Rule>

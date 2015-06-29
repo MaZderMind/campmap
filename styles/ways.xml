@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE Map [
+	<!ENTITY % entities SYSTEM "inc/entities.xml">
+	%entities;
+
+	<!ENTITY sz_text "14">
+
+	<!ENTITY c_railway_dark "#444444">
+	<!ENTITY c_railway_light "#FFFFFF">
+
+	<!ENTITY c_highway_footway "#00FF00">
+	<!ENTITY c_highway_service "#809BC0">
+	<!ENTITY c_highway_unclassified "#808080">
+]>
+<Map background-color="transparent" srs="&srs900913;" minimum-version="2.1.0">
+	&fontset-settings;
+
+	<Style name="railway-casing">
+		<Rule>
+			<LineSymbolizer stroke="&c_railway_dark;" stroke-width="3" stroke-opacity="1.0" stroke-linejoin="round" stroke-linecap="round" />
+		</Rule>
+	</Style>
+
+	<Style name="railway-fill">
+		<Rule>
+			<LineSymbolizer stroke="&c_railway_light;" stroke-width="1" stroke-opacity="1.0" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="0,11,8,1" />
+		</Rule>
+	</Style>
+
+	<Layer name="railway" status="on" srs="&srs900913;">
+		<StyleName>railway-casing</StyleName>
+		<StyleName>railway-fill</StyleName>
+
+		<Datasource>
+			<Parameter name="table">
+			(
+				SELECT
+					way,
+					tags->'name' as name
+				FROM planet_osm_line
+				WHERE
+					tags ? 'railway'
+			) AS subq
+			</Parameter>
+			<Parameter name="geometry_field">way</Parameter>
+
+			&datasource-settings;
+		</Datasource>
+	</Layer>
+
+
+
+
+	<Style name="way-casing">
+		<Rule>
+			<Filter>[highway] = 'service'</Filter>
+			<LineSymbolizer stroke="white" stroke-width="5" stroke-opacity="0.75" stroke-linejoin="round" stroke-linecap="round" />
+		</Rule>
+
+		<Rule>
+			<Filter>[highway] = 'residential' or [highway] = 'unclassified'</Filter>
+			<LineSymbolizer stroke="white" stroke-width="5" stroke-opacity="0.75" stroke-linejoin="round" stroke-linecap="round" />
+		</Rule>
+	</Style>
+
+	<Style name="way-fill">
+		<Rule>
+			<Filter>[highway] = 'service'</Filter>
+			<LineSymbolizer stroke="&c_highway_service;" stroke-width="4" stroke-opacity="0.75" stroke-linejoin="round" stroke-linecap="round" />
+		</Rule>
+
+		<Rule>
+			<Filter>[highway] = 'residential' or [highway] = 'unclassified'</Filter>
+			<LineSymbolizer stroke="&c_highway_unclassified;" stroke-width="4" stroke-opacity="0.75" stroke-linejoin="round" stroke-linecap="round" />
+		</Rule>
+	</Style>
+
+
+	<Style name="way-2nd-fill">
+		<Rule>
+			<Filter>[highway] = 'footway' or [highway] = 'track'</Filter>
+			<LineSymbolizer stroke="&c_highway_footway;" stroke-width="2" stroke-opacity="0.75" stroke-linejoin="round" stroke-linecap="round" />
+		</Rule>
+	</Style>
+
+	<Layer name="way" status="on" srs="&srs900913;">
+		<StyleName>way-2nd-fill</StyleName>
+
+		<StyleName>way-casing</StyleName>
+		<StyleName>way-fill</StyleName>
+
+		<Datasource>
+			<Parameter name="table">
+			(
+				SELECT
+					way,
+					tags->'name' as name,
+					tags->'highway' as highway
+				FROM planet_osm_line
+				WHERE
+					tags ? 'highway'
+			) AS subq
+			</Parameter>
+			<Parameter name="geometry_field">way</Parameter>
+
+			&datasource-settings;
+		</Datasource>
+	</Layer>
+</Map>

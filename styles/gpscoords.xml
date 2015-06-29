@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE Map [
+	<!ENTITY % entities SYSTEM "inc/entities.xml">
+	%entities;
+
+	<!ENTITY sz_text "12">
+
+	<!ENTITY c_coords "#000000">
+]>
+<Map background-color="transparent" srs="&srs900913;" minimum-version="2.1.0">
+	&fontset-settings;
+
+	<Style name="coords">
+		<Rule>
+			<ShieldSymbolizer file="../icons/arrow.svg" transform="scale(0.1)" fill="&c_coords;" shield-dx="20" dx="90" dy="-1" halo-fill="white" halo-radius="1.5" fontset-name="book-fonts" size="&sz_text;" placement="point" horizontal-alignment="middle">[coords]</ShieldSymbolizer>
+		</Rule>
+	</Style>
+
+	<Layer name="coords" status="on" srs="&srs900913;">
+		<StyleName>coords</StyleName>
+
+		<Datasource>
+			<Parameter name="table">
+			(
+				SELECT
+					way,
+					ST_AsLatLonText(ST_Transform(way, 4326)) AS coords
+				FROM planet_osm_point
+				WHERE
+					tags->'noc:type' IN ('datenklo', 'ibc')
+			) AS subq
+			</Parameter>
+			<Parameter name="geometry_field">way</Parameter>
+
+			&datasource-settings;
+		</Datasource>
+	</Layer>
+</Map>
