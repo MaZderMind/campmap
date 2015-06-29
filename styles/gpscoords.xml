@@ -6,13 +6,26 @@
 	<!ENTITY sz_text "12">
 
 	<!ENTITY c_coords "#000000">
+
+	<!ENTITY c_noc_datenklo "#3F00FF">
+	<!ENTITY c_noc_ap "#7BD8C1">
+	<!ENTITY c_noc_ibc "#7F5500">
 ]>
 <Map background-color="transparent" srs="&srs900913;" minimum-version="2.1.0">
 	&fontset-settings;
 
 	<Style name="coords">
 		<Rule>
-			<ShieldSymbolizer file="../icons/arrow.svg" transform="scale(0.1)" fill="&c_coords;" shield-dx="20" dx="90" dy="-1" halo-fill="white" halo-radius="1.5" fontset-name="book-fonts" size="&sz_text;" placement="point" horizontal-alignment="middle">[coords]</ShieldSymbolizer>
+			<Filter>[noctype] = 'datenklo'</Filter>
+			<TextSymbolizer fill="&c_noc_datenklo;" halo-fill="white" halo-radius="1.5" fontset-name="book-fonts" size="&sz_text;" placement="point" dy="35">[coords]</TextSymbolizer>
+		</Rule>
+		<Rule>
+			<Filter>[noctype] = 'ap'</Filter>
+			<TextSymbolizer fill="&c_noc_ap;" halo-fill="white" halo-radius="1.5" fontset-name="book-fonts" size="&sz_text;" placement="point" dy="15">[coords]</TextSymbolizer>
+		</Rule>
+		<Rule>
+			<Filter>[noctype] = 'ibc'</Filter>
+			<TextSymbolizer fill="&c_noc_ibc;" halo-fill="white" halo-radius="1.5" fontset-name="book-fonts" size="&sz_text;" placement="point" dy="15">[coords]</TextSymbolizer>
 		</Rule>
 	</Style>
 
@@ -24,7 +37,8 @@
 			(
 				SELECT
 					way,
-					ST_AsLatLonText(ST_Transform(way, 4326)) AS coords
+					ST_AsLatLonText(ST_Transform(way, 4326)) AS coords,
+					tags->'noc:type' AS noctype
 				FROM planet_osm_point
 				WHERE
 					tags->'noc:type' IN ('datenklo', 'ibc')
