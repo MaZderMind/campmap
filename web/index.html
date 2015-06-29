@@ -37,6 +37,10 @@
 			.leaflet-control-layers ul li a {
 				text-decoration: none;
 			}
+
+			.leaflet-control-layers ul li a.leaflet-control-draw-measure {
+				background: none;
+			}
 		</style>
 
 		<!-- load the leaflet javascript library -->
@@ -114,6 +118,10 @@
 
 				$('<li class="gap">')
 					.append( $('.leaflet-control-permalink') )
+					.appendTo($ul);
+
+				$('<li>')
+					.append( $('.leaflet-control-draw-measure').text('Measure distances') )
 					.appendTo($ul);
 
 				$('.leaflet-control-layers-list').append([
