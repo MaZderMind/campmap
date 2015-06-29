@@ -4,6 +4,8 @@
 		<title>Maps on Personalwerk.de</title>
 
 		<link rel="stylesheet" href="leaflet-0.7.3/leaflet.css" />
+		<link rel="stylesheet" href="leaflet-plugins/Leaflet.Draw/leaflet.draw.css" />
+		<link rel="stylesheet" href="leaflet-plugins/Leaflet.MeasureControl/leaflet.measurecontrol.css" />
 		<style type="text/css">
 			body {
 				padding: 0;
@@ -43,6 +45,8 @@
 		<script src="leaflet-plugins/Permalink.js"></script>
 		<script src="leaflet-plugins/Permalink.Layer.js"></script>
 		<script src="leaflet-plugins/Bing.js"></script>
+		<script src="leaflet-plugins/Leaflet.Draw/leaflet.draw.js"></script>
+		<script src="leaflet-plugins/Leaflet.MeasureControl/leaflet.measurecontrol.js"></script>
 
 		<script type="text/javascript">
 			var attribution = 'Tiles under PD0, Data under OdbL';
@@ -80,6 +84,7 @@
 					layers: layers,
 					center: new L.LatLng(53.03131, 13.30906),
 					zoom: 17,
+					measureControl: true
 				});
 				window.map = map;
 
