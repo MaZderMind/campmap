@@ -11,6 +11,8 @@
 	<!ENTITY c_highway_footway "#00FF00">
 	<!ENTITY c_highway_service "#809BC0">
 	<!ENTITY c_highway_unclassified "#808080">
+
+	<!ENTITY c_fence "#aaaa00">
 ]>
 <Map background-color="transparent" srs="&srs900913;" minimum-version="2.1.0">
 	&fontset-settings;
@@ -99,6 +101,32 @@
 				FROM planet_osm_line
 				WHERE
 					tags ? 'highway'
+			) AS subq
+			</Parameter>
+			<Parameter name="geometry_field">way</Parameter>
+
+			&datasource-settings;
+		</Datasource>
+	</Layer>
+
+
+	<Style name="fence-fill">
+		<Rule>
+			<LineSymbolizer stroke="&c_fence;" stroke-width="2" stroke-opacity="1" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="11,11" />
+		</Rule>
+	</Style>
+
+	<Layer name="fence" status="on" srs="&srs900913;">
+		<StyleName>fence-fill</StyleName>
+
+		<Datasource>
+			<Parameter name="table">
+			(
+				SELECT
+					way
+				FROM planet_osm_line
+				WHERE
+					tags->'barrier' = 'fence'
 			) AS subq
 			</Parameter>
 			<Parameter name="geometry_field">way</Parameter>
