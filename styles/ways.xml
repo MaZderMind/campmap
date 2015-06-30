@@ -78,7 +78,7 @@
 
 	<Style name="way-2nd-fill">
 		<Rule>
-			<Filter>[highway] = 'footway' or [highway] = 'track'</Filter>
+			<Filter>[highway] = 'footway' or [highway] = 'track' or [highway] = 'path'</Filter>
 			<LineSymbolizer stroke="&c_highway_footway;" stroke-width="2" stroke-opacity="0.75" stroke-linejoin="round" stroke-linecap="round" />
 		</Rule>
 	</Style>
