@@ -6,6 +6,12 @@
 		<link rel="stylesheet" href="leaflet-0.7.3/leaflet.css" />
 		<link rel="stylesheet" href="leaflet-plugins/Leaflet.Draw/leaflet.draw.css" />
 		<link rel="stylesheet" href="leaflet-plugins/Leaflet.MeasureControl/leaflet.measurecontrol.css" />
+
+		<link rel="stylesheet" href="gh-fork-ribbon/gh-fork-ribbon.min.css" />
+		<!--[if lt IE 9]>
+		  <link rel="stylesheet" href="gh-fork-ribbon/gh-fork-ribbon.ie.min.css" />
+		<![endif]-->
+
 		<style type="text/css">
 			body {
 				padding: 0;
@@ -40,6 +46,10 @@
 
 			.leaflet-control-layers ul li a.leaflet-control-draw-measure {
 				background: none;
+			}
+
+			.leaflet-bottom {
+				z-index: 10000;
 			}
 		</style>
 
@@ -172,5 +182,11 @@
 
 	<body onload="init();">
 		<div id="map"></div>
+
+		<div class="github-fork-ribbon-wrapper right-bottom">
+			<div class="github-fork-ribbon">
+				<a href="https://github.com/MaZderMind/campmap/" target="_blank">GitHub</a>
+			</div>
+		</div>
 	</body>
 </html>
