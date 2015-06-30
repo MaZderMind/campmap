@@ -60,7 +60,7 @@
 				////////// MAP SETUP //////////
 				var basemap = new L.BingLayer('AgUjrAV3ggamKtrsPI9ruw06v8vStpmRQlQ16te0eLfYKKF6ZLy-MIFx__84B_gQ', {
 					maxNativeZoom: 18,
-					maxZoom: 20,
+					maxZoom: 21,
 					attribution: '',
 
 					opacity: 0.50
@@ -72,8 +72,9 @@
 				var overlayers = {};
 				for (var i = 0; i < overlays.length; i++) {
 					var name = overlays[i]
-					overlayers[name] = new L.TileLayer('http://campmap.mazdermind.de/tiles/campmap-'+name+'/{z}/{x}/{y}.png', {
-						maxZoom: 20,
+					overlayers[name] = new L.TileLayer('http://{s}.tiles.campmap.mazdermind.de/campmap-'+name+'/{z}/{x}/{y}.png', {
+						subdomains: 'abcd',
+						maxZoom: 21,
 						attribution: attribution,
 						scheme: 'xyz',
 						errorTileUrl: 'http://maps.personalwerk.de/404.png'
@@ -89,7 +90,11 @@
 					layers: layers,
 					center: new L.LatLng(53.03131, 13.30906),
 					zoom: 17,
-					measureControl: true
+					measureControl: true,
+
+					// issues with lots and lots of transparent tiles
+					fadeAnimation: false,
+					zoomAnimation: false
 				});
 				window.map = map;
 
