@@ -30,11 +30,11 @@
 	<Style name="landuse-text">
 		<Rule>
 			<Filter>[landuse] = 'residential'</Filter>
-			<TextSymbolizer fill="&c_residential_text;" halo-fill="white" halo-radius="1.5" spacing="50" fontset-name="book-fonts" size="&sz_text;" placement="line">[name]</TextSymbolizer>
+			<TextSymbolizer fill="&c_residential_text;" halo-fill="white" halo-radius="1.5" spacing="100" fontset-name="book-fonts" size="&sz_text;" placement="line">[name]</TextSymbolizer>
 		</Rule>
 		<Rule>
 			<Filter>[landuse] = 'industrial'</Filter>
-			<TextSymbolizer fill="&c_industrial_text;" halo-fill="white" halo-radius="1.5" spacing="50" fontset-name="book-fonts" size="&sz_text;" placement="line">[name]</TextSymbolizer>
+			<TextSymbolizer fill="&c_industrial_text;" halo-fill="white" halo-radius="1.5" spacing="100" fontset-name="book-fonts" size="&sz_text;" placement="line">[name]</TextSymbolizer>
 		</Rule>
 	</Style>
 
