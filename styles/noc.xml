@@ -63,46 +63,6 @@
 
 
 
-	<Style name="noc-points">
-		<Rule>
-			<Filter>[noctype] = 'datenklo'</Filter>
-			<ShieldSymbolizer file="../icons/datenklo.svg" transform="scale(0.05)" fill="&c_noc_datenklo;" dy="20" halo-fill="white" halo-radius="1.5" fontset-name="book-fonts" size="&sz_text;" placement="point">[name]</ShieldSymbolizer>
-		</Rule>
-
-		<Rule>
-			<Filter>[noctype] = 'ap'</Filter>
-			<ShieldSymbolizer file="../icons/ap.svg" transform="scale(0.025)" fill="&c_noc_ap;" dy="15" halo-fill="white" halo-radius="1.5" fontset-name="book-fonts" size="&sz_text_small;" placement="point">[name]</ShieldSymbolizer>
-		</Rule>
-
-		<Rule>
-			<Filter>[noctype] = 'ibc'</Filter>
-			<PointSymbolizer file="../icons/ibc.svg" transform="scale(0.025)" />
-		</Rule>
-	</Style>
-
-	<Layer name="noc-points" status="on" srs="&srs900913;">
-		<StyleName>noc-points</StyleName>
-
-		<Datasource>
-			<Parameter name="table">
-			(
-				SELECT
-					way,
-					tags->'name' as name,
-					tags->'noc:type' as noctype
-				FROM planet_osm_point
-				WHERE
-					tags->'noc:type' IN ('datenklo', 'ap', 'ibc')
-			) AS subq
-			</Parameter>
-			<Parameter name="geometry_field">way</Parameter>
-
-			&datasource-settings;
-		</Datasource>
-	</Layer>
-
-
-
 	<Style name="noc-lines-halo">
 		<Rule>
 			<Filter>[noctype] = 'fibre'</Filter>
@@ -149,6 +109,47 @@
 					tags->'name' as name,
 					tags->'noc:type' as noctype
 				FROM planet_osm_line
+				WHERE
+					tags ? 'noc:type'
+			) AS subq
+			</Parameter>
+			<Parameter name="geometry_field">way</Parameter>
+
+			&datasource-settings;
+		</Datasource>
+	</Layer>
+
+
+
+	<Style name="noc-points">
+		<Rule>
+			<Filter>[building] = 'datenklo'</Filter>
+			<ShieldSymbolizer file="../icons/datenklo.svg" transform="scale(0.05)" fill="&c_noc_datenklo;" dy="20" halo-fill="white" halo-radius="1.5" fontset-name="book-fonts" size="&sz_text;" placement="point" allow-overlap="true">[name]</ShieldSymbolizer>
+		</Rule>
+
+		<Rule>
+			<Filter>[noctype] = 'ap'</Filter>
+			<ShieldSymbolizer file="../icons/ap.svg" transform="scale(0.025)" fill="&c_noc_ap;" dy="15" halo-fill="white" halo-radius="1.5" fontset-name="book-fonts" size="&sz_text_small;" placement="point" allow-overlap="true">[name]</ShieldSymbolizer>
+		</Rule>
+
+		<Rule>
+			<Filter>[noctype] = 'ibc'</Filter>
+			<PointSymbolizer file="../icons/ibc.svg" transform="scale(0.025)" allow-overlap="true" />
+		</Rule>
+	</Style>
+
+	<Layer name="noc-points" status="on" srs="&srs900913;">
+		<StyleName>noc-points</StyleName>
+
+		<Datasource>
+			<Parameter name="table">
+			(
+				SELECT
+					way,
+					tags->'name' as name,
+					tags->'noc:type' as noctype,
+					tags->'building' as building
+				FROM planet_osm_point
 				WHERE
 					tags ? 'noc:type'
 			) AS subq
