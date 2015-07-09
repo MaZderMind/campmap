@@ -57,6 +57,7 @@
 		<script src="leaflet-0.7.3/leaflet.js"></script>
 		<script src="leaflet-plugins/Permalink.js"></script>
 		<script src="leaflet-plugins/Permalink.Layer.js"></script>
+		<script src="leaflet-plugins/Permalink.Draw.js"></script>
 		<script src="leaflet-plugins/Bing.js"></script>
 		<script src="leaflet-plugins/Leaflet.Draw/leaflet.draw.js"></script>
 		<script src="leaflet-plugins/Leaflet.MeasureControl/leaflet.measurecontrol.js"></script>
@@ -106,15 +107,43 @@
 					zoomAnimation: false
 				});
 				window.map = map;
+				////////// END MAP SETUP //////////
 
+				////////// DRAWING SETUP //////////
+				var drawnItems = new L.FeatureGroup();
+				map.addLayer(drawnItems);
+				overlayers['drawnItems'] = drawnItems;
+
+				// Initialise the draw control and pass it the FeatureGroup of editable layers
+				var drawControl = new L.Control.Draw({
+					draw: {
+						circle: false
+					},
+					edit: {
+						featureGroup: drawnItems
+					}
+				});
+				map.addControl(drawControl);
+
+				map.on('draw:created', function (e) {
+					var type = e.layerType,
+						layer = e.layer;
+
+					drawnItems.addLayer(layer);
+				});
+				////////// END DRAWING SETUP //////////
+
+
+
+				////////// CONTROLS SETUP //////////
 				var layersControl = new L.Control.Layers({}, overlayers, {collapsed: false});
-				var permalinkControl = new L.Control.Permalink({layers: layersControl});
+				var permalinkControl = new L.Control.Permalink({layers: layersControl, drawnItems: drawnItems});
 				map.addControl(layersControl);
 				map.addControl(permalinkControl);
 
 				var scaleControl = new L.Control.Scale();
 				map.addControl(scaleControl);
-				////////// END MAP SETUP //////////
+				////////// END CONTROLS SETUP //////////
 
 
 
