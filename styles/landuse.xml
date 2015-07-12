@@ -64,7 +64,7 @@
 			(
 				SELECT
 					way,
-					tags->'name' AS name,
+					replace(tags->'name', ';', ' — ') AS name,
 					tags->'landuse' AS landuse,
 					tags->'tourism' AS tourism
 				FROM planet_osm_polygon
