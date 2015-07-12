@@ -8,8 +8,11 @@
 	<!ENTITY c_industrial "#ECD8FF">
 	<!ENTITY c_industrial_text "#756C7F">
 
-	<!ENTITY c_residential "#f0f0f0">
+	<!ENTITY c_residential "#F0F0F0">
 	<!ENTITY c_residential_text "#7C7C7C">
+
+	<!ENTITY c_campsite "#E9D7ED">
+	<!ENTITY c_campsite_text "#D470EA">
 ]>
 <Map background-color="transparent" srs="&srs900913;" minimum-version="2.1.0">
 	&fontset-settings;
@@ -25,16 +28,30 @@
 			<PolygonSymbolizer fill="&c_industrial;" fill-opacity="0.5" />
 			<LineSymbolizer stroke="&c_industrial;" stroke-width="3" stroke-opacity="0.75" stroke-linejoin="round" />
 		</Rule>
+		<Rule>
+			<Filter>[landuse] = 'industrial'</Filter>
+			<PolygonSymbolizer fill="&c_industrial;" fill-opacity="0.5" />
+			<LineSymbolizer stroke="&c_industrial;" stroke-width="3" stroke-opacity="0.75" stroke-linejoin="round" />
+		</Rule>
+		<Rule>
+			<Filter>[tourism] = 'camp_site'</Filter>
+			<PolygonSymbolizer fill="&c_campsite;" fill-opacity="0.5" />
+			<LineSymbolizer stroke="&c_campsite;" stroke-width="3" stroke-opacity="0.75" stroke-linejoin="round" />
+		</Rule>
 	</Style>
 
 	<Style name="landuse-text">
 		<Rule>
 			<Filter>[landuse] = 'residential'</Filter>
-			<TextSymbolizer fill="&c_residential_text;" halo-fill="white" halo-radius="1.5" spacing="100" fontset-name="book-fonts" size="&sz_text;" placement="line">[name]</TextSymbolizer>
+			<TextSymbolizer fill="&c_residential_text;" halo-fill="white" halo-radius="1.5" spacing="100" fontset-name="book-fonts" size="&sz_text;" placement="interior" wrap-width="100">[name]</TextSymbolizer>
 		</Rule>
 		<Rule>
 			<Filter>[landuse] = 'industrial'</Filter>
 			<TextSymbolizer fill="&c_industrial_text;" halo-fill="white" halo-radius="1.5" spacing="100" fontset-name="book-fonts" size="&sz_text;" placement="line">[name]</TextSymbolizer>
+		</Rule>
+		<Rule>
+			<Filter>[tourism] = 'camp_site'</Filter>
+			<TextSymbolizer fill="&c_campsite_text;" halo-fill="white" halo-radius="1.5" spacing="300" fontset-name="book-fonts" size="&sz_text;" placement="line">[name]</TextSymbolizer>
 		</Rule>
 	</Style>
 
@@ -47,11 +64,13 @@
 			(
 				SELECT
 					way,
-					tags->'name' as name,
-					tags->'landuse' as landuse
+					tags->'name' AS name,
+					tags->'landuse' AS landuse,
+					tags->'tourism' AS tourism
 				FROM planet_osm_polygon
 				WHERE
-					(tags ? 'landuse')
+					(tags ? 'landuse') OR
+					(tags->'tourism' = 'camp_site')
 			) AS subq
 			</Parameter>
 			<Parameter name="geometry_field">way</Parameter>
