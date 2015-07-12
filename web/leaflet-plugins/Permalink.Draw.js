@@ -30,6 +30,10 @@ L.Control.Permalink.include({
 
 			this._update({drawnItems: JSON.stringify(drawnItems.toGeoJSON()) });
 		}
+		else
+		{
+			this._update({drawnItems: null});
+		}
 	},
 
 	_set_drawing: function(e) {
