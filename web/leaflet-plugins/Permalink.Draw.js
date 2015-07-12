@@ -8,12 +8,12 @@ L.Control.Permalink.include({
 	},
 	*/
 
-	initialize_layer: function() {
+	initialize_draw: function() {
 		this.on('update', this._set_drawing, this);
-		this.on('add', this._onadd_layer, this);
+		this.on('add', this._onadd_layer_draw, this);
 	},
 
-	_onadd_layer: function(e) {
+	_onadd_layer_draw: function(e) {
 		this._map.on('draw:created draw:edited draw:deleted', this._update_drawing, this);
 		this._update_drawing();
 	},
