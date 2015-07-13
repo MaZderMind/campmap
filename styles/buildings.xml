@@ -20,7 +20,7 @@
 
 	<Style name="building-text">
 		<Rule>
-			<Filter>[amenity]</Filter>
+			<Filter>[amenity] or [building]='container'</Filter>
 			<TextSymbolizer fill="&c_building_text;" halo-fill="white" halo-radius="1.5" fontset-name="book-fonts" size="&sz_text;" placement="interior">[name]</TextSymbolizer>
 		</Rule>
 	</Style>
