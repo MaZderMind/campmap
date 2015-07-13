@@ -79,7 +79,7 @@
 		</Rule>
 	</Style>
 
-	<Layer name="tents" status="on" srs="&srs900913;">
+	<Layer name="landuse" status="on" srs="&srs900913;">
 		<StyleName>landuse</StyleName>
 		<StyleName>landuse-text</StyleName>
 
