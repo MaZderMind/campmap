@@ -1,6 +1,7 @@
 <html>
 	<head>
 		<title>The CampMap!</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
 		<link rel="stylesheet" href="leaflet-0.7.3/leaflet.css" />
 		<link rel="stylesheet" href="leaflet-plugins/Leaflet.Draw/leaflet.draw.css" />
@@ -58,12 +59,26 @@
 				right: 30%;
 
 				text-align: center;
-				font-size: 40px;
+				font-size: 3em;
 				font-variant: small-caps;
 
 				z-index: 10000;
 
 				cursor: pointer;
+			}
+			@media(max-width: 1024px) {
+				.banner {
+					font-size: 1.5em;
+
+					position: absolute;
+					top: 10px;
+					left: 10px;
+					right: 10px;
+				}
+
+				.github-fork-ribbon-wrapper {
+					display: none;
+				}
 			}
 
 			.banner .sub {
@@ -115,6 +130,8 @@
 
 			function init()
 			{
+				var small = $(window).width() < 1024;
+
 				////////// MAP SETUP //////////
 				var basemap = new L.BingLayer('AgUjrAV3ggamKtrsPI9ruw06v8vStpmRQlQ16te0eLfYKKF6ZLy-MIFx__84B_gQ', {
 					maxNativeZoom: 18,
@@ -135,6 +152,7 @@
 						maxZoom: 21,
 						attribution: attribution,
 						scheme: 'xyz',
+						//detectRetina: true,
 						errorTileUrl: 'http://maps.personalwerk.de/404.png'
 					});
 				};
@@ -151,40 +169,46 @@
 					measureControl: true,
 
 					// issues with lots and lots of transparent tiles
-					fadeAnimation: false,
-					zoomAnimation: false
+					fadeAnimation: L.Browser.touch,
+					zoomAnimation: L.Browser.touch
 				});
 				window.map = map;
 				////////// END MAP SETUP //////////
 
 				////////// DRAWING SETUP //////////
-				var drawnItems = new L.FeatureGroup();
-				map.addLayer(drawnItems);
-				//overlayers['drawnItems'] = drawnItems;
+				var drawnItems;
+				if(!small)
+				{
+					drawnItems = new L.FeatureGroup();
+					map.addLayer(drawnItems);
+					//overlayers['drawnItems'] = drawnItems;
 
-				// Initialise the draw control and pass it the FeatureGroup of editable layers
-				var drawControl = new L.Control.Draw({
-					draw: {
-						circle: false
-					},
-					edit: {
-						featureGroup: drawnItems
-					}
-				});
-				map.addControl(drawControl);
+					// Initialise the draw control and pass it the FeatureGroup of editable layers
+					var drawControl = new L.Control.Draw({
+						draw: {
+							circle: false
+						},
+						edit: {
+							featureGroup: drawnItems
+						}
+					});
+					map.addControl(drawControl);
 
-				map.on('draw:created', function (e) {
-					var type = e.layerType,
-						layer = e.layer;
+					map.on('draw:created', function (e) {
+						var type = e.layerType,
+							layer = e.layer;
 
-					drawnItems.addLayer(layer);
-				});
+						drawnItems.addLayer(layer);
+					});
+				}
 				////////// END DRAWING SETUP //////////
 
 
 
 				////////// CONTROLS SETUP //////////
-				var layersControl = new L.Control.Layers({}, overlayers, {collapsed: false});
+				var layersControl = new L.Control.Layers({}, overlayers, {
+					collapsed: small
+				});
 				var permalinkControl = new L.Control.Permalink({layers: layersControl, drawnItems: drawnItems});
 				map.addControl(layersControl);
 				map.addControl(permalinkControl);
@@ -257,11 +281,11 @@
 
 				////////// END BANNER //////////
 				var $banner = $('.banner');
-				$banner.on('mousedown', function() {
+				$banner.on('mousedown touchstart', function() {
 					$banner.remove();
 				});
 
-				map.on('mousedown', function() {
+				map.on('mousedown touchstart', function() {
 					$banner.remove();
 				});
 				////////// END BANNER //////////
