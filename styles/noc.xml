@@ -26,33 +26,35 @@
 	&fontset-settings;
 
 
-	<Style name="noc-areas-fill">
-		<Rule>
-			<Filter>[noctype] = 'tiefbau'</Filter>
-			<PolygonSymbolizer fill="&c_tiefbau;" fill-opacity="0.5" />
-			<LineSymbolizer stroke="&c_tiefbau_stroke;" stroke-width="2" stroke-opacity="0.75" stroke-linejoin="round" stroke-dasharray="9,9" />
-		</Rule>
-
+	<Style name="noc-construction-fill">
 		<Rule>
 			<Filter>[noctype] = 'hochbau'</Filter>
 			<PolygonSymbolizer fill="&c_hochbau;" fill-opacity="0.5" />
+			<LineSymbolizer stroke="&c_hochbau;" stroke-width="2" stroke-opacity="0.75" stroke-linejoin="round" />
 			<LineSymbolizer stroke="&c_hochbau_stroke;" stroke-width="2" stroke-opacity="0.75" stroke-linejoin="round" stroke-dasharray="9,9" />
+		</Rule>
+
+		<Rule>
+			<ElseFilter/>
+			<PolygonSymbolizer fill="&c_tiefbau;" fill-opacity="0.5" />
+			<LineSymbolizer stroke="&c_tiefbau;" stroke-width="2" stroke-opacity="0.75" stroke-linejoin="round" />
+			<LineSymbolizer stroke="&c_tiefbau_stroke;" stroke-width="2" stroke-opacity="0.75" stroke-linejoin="round" stroke-dasharray="9,9" />
 		</Rule>
 	</Style>
 
-	<Layer name="noc-areas" status="on" srs="&srs900913;">
-		<StyleName>noc-areas-fill</StyleName>
+	<Layer name="noc-construction" status="on" srs="&srs900913;">
+		<StyleName>noc-construction-fill</StyleName>
 
 		<Datasource>
 			<Parameter name="table">
 			(
 				SELECT
 					way,
-					tags->'name' as name,
-					tags->'noc:type' as noctype
+					tags->'name' AS name,
+					tags->'noc:type' AS noctype
 				FROM planet_osm_polygon
 				WHERE
-					tags ? 'noc:type'
+					tags->'landuse' = 'construction'
 			) AS subq
 			</Parameter>
 			<Parameter name="geometry_field">way</Parameter>
