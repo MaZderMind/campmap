@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE Map [
+	<!ENTITY % entities SYSTEM "inc/entities.xml">
+	%entities;
+
+	<!ENTITY sz_text "14">
+	<!ENTITY sz_text_small "12">
+]>
+<Map background-color="transparent" srs="&srs900913;" minimum-version="2.1.0">
+	&fontset-settings;
+
+	<Style name="amenitiy-points">
+		<Rule>
+			<!-- #00A6F9 -->
+			<Filter>[amenity] = 'toilets'</Filter>
+			<PointSymbolizer file="../icons/cccamp15-icons/restrooms.color.svg" transform="scale(0.2)" />
+		</Rule>
+		<Rule>
+			<!-- #00A6F9 -->
+			<Filter>[amenity] = 'shower'</Filter>
+			<PointSymbolizer file="../icons/cccamp15-icons/shower.color.svg" transform="scale(0.2)" />
+		</Rule>
+		<Rule>
+			<!-- #FC00B0 -->
+			<Filter>[amenity] = 'hospital'</Filter>
+			<PointSymbolizer file="../icons/cccamp15-icons/firstaid.color.svg" transform="scale(0.2)" />
+		</Rule>
+		<Rule>
+			<!-- #001BB7 -->
+			<Filter>[amenity] = 'restaurant'</Filter>
+			<PointSymbolizer file="../icons/cccamp15-icons/catering.color.svg" transform="scale(0.2)" />
+		</Rule>
+		<Rule>
+			<!-- #7CFFF6 -->
+			<Filter>[amenity] = 'place_of_worship' and [place_of_worship] = 'himmel'</Filter>
+			<ShieldSymbolizer file="../icons/cccamp15-icons/heavencloud.color.svg" transform="scale(0.2)" fill="#7CFFF6" dy="20" halo-fill="white" halo-radius="1.5" fontset-name="book-fonts" size="&sz_text;">[name]</ShieldSymbolizer>
+		</Rule>
+		<Rule>
+			<!-- #3F00FF -->
+			<Filter>[building] = 'datenklo'</Filter>
+			<PointSymbolizer file="../icons/cccamp15-icons/lan.color.svg" transform="scale(0.2)" />
+		</Rule>
+		<Rule>
+			<!-- #FFE100 -->
+			<Filter>[power] = 'cable_distribution_cabinet'</Filter>
+			<PointSymbolizer file="../icons/cccamp15-icons/powerplug.color.svg" transform="scale(0.2)" />
+		</Rule>
+	</Style>
+
+	<Layer name="amenitiy-points" status="on" srs="&srs900913;">
+		<StyleName>amenitiy-points</StyleName>
+
+		<Datasource>
+			<Parameter name="table">
+			(
+				SELECT
+					way,
+					tags->'name' AS name,
+					tags->'amenity' AS amenity,
+					tags->'shop' AS shop,
+					tags->'leisure' AS leisure,
+					tags->'tourism' AS tourism,
+					tags->'building' AS building,
+					tags->'natural' AS natural,
+					tags->'place_of_worship' AS place_of_worship,
+					tags->'power' AS power
+				FROM planet_osm_point
+				WHERE
+					(tags ? 'amenity') OR
+					(tags ? 'shop') OR
+					(tags ? 'leisure') OR
+					(tags ? 'tourism') OR
+					(tags->'building' = 'datenklo') OR
+					(tags->'natural' = 'tree')
+				ORDER BY CASE
+					WHEN tags->'building' = 'datenklo'
+						THEN 20
+					WHEN tags->'power' = 'cable_distribution_cabinet'
+						THEN 10
+					ELSE
+						0
+					END
+			) AS subq
+			</Parameter>
+			<Parameter name="geometry_field">way</Parameter>
+
+			&datasource-settings;
+		</Datasource>
+	</Layer>
+
+	<Layer name="amenitiy-polygons" status="on" srs="&srs900913;">
+		<StyleName>amenitiy-points</StyleName>
+
+		<Datasource>
+			<Parameter name="table">
+			(
+				SELECT
+					ST_PointOnSurface(way) AS way,
+					tags->'name' as name,
+					tags->'amenity' as amenity,
+					tags->'shop' as shop,
+					tags->'leisure' as leisure,
+					tags->'tourism' as tourism,
+					tags->'building' as building,
+					tags->'natural' as natural,
+					tags->'place_of_worship' AS place_of_worship,
+					tags->'power' AS power
+				FROM planet_osm_polygon
+				WHERE
+					(tags ? 'amenity') OR
+					(tags ? 'shop') OR
+					(tags ? 'leisure') OR
+					(tags ? 'tourism') OR
+					(tags->'building' = 'datenklo') OR
+					(tags->'natural' = 'tree')
+				ORDER BY CASE
+					WHEN tags->'building' = 'datenklo'
+						THEN 20
+					WHEN tags->'power' = 'cable_distribution_cabinet'
+						THEN 10
+					ELSE
+						0
+					END
+			) AS subq
+			</Parameter>
+			<Parameter name="geometry_field">way</Parameter>
+
+			&datasource-settings;
+		</Datasource>
+	</Layer>
+</Map>
