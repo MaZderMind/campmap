@@ -31,9 +31,9 @@
 			<PointSymbolizer file="../icons/datenklo.svg" transform="scale(0.04)" />
 		</Rule>
 		<Rule>
-			<!-- #FFE100 -->
+			<!-- #C90039 -->
 			<Filter>[power] = 'cable_distribution_cabinet'</Filter>
-			<PointSymbolizer file="../icons/cccamp15-icons/powerplug.color.svg" transform="scale(0.2)" />
+			<ShieldSymbolizer file="../icons/cccamp15-icons/powerplug.color.svg" transform="scale(0.2)" fill="#C90039" dy="20" halo-fill="white" halo-radius="1.5" fontset-name="book-fonts" size="&sz_text;">[name]</ShieldSymbolizer>
 		</Rule>
 	</Style>
 
@@ -59,13 +59,13 @@
 					(tags ? 'amenity') OR
 					(tags ? 'shop') OR
 					(tags ? 'leisure') OR
-					(tags ? 'tourism') OR
+					(tags ? 'power') OR
 					(tags->'building' = 'datenklo') OR
 					(tags->'natural' = 'tree')
 				ORDER BY CASE
 					WHEN tags->'building' = 'datenklo'
 						THEN 20
-					WHEN tags->'power' = 'cable_distribution_cabinet'
+					WHEN tags ? 'power'
 						THEN 10
 					ELSE
 						0
@@ -100,13 +100,13 @@
 					(tags ? 'amenity') OR
 					(tags ? 'shop') OR
 					(tags ? 'leisure') OR
-					(tags ? 'tourism') OR
+					(tags ? 'power') OR
 					(tags->'building' = 'datenklo') OR
 					(tags->'natural' = 'tree')
 				ORDER BY CASE
 					WHEN tags->'building' = 'datenklo'
 						THEN 20
-					WHEN tags->'power' = 'cable_distribution_cabinet'
+					WHEN tags ? 'power'
 						THEN 10
 					ELSE
 						0
