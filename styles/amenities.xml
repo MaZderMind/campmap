@@ -28,7 +28,7 @@
 		<Rule>
 			<!-- #3F00FF -->
 			<Filter>[building] = 'datenklo'</Filter>
-			<PointSymbolizer file="../icons/cccamp15-icons/lan.color.svg" transform="scale(0.2)" />
+			<PointSymbolizer file="../icons/datenklo.svg" transform="scale(0.04)" />
 		</Rule>
 		<Rule>
 			<!-- #FFE100 -->
