@@ -125,6 +125,7 @@
 
 		<!-- load the leaflet javascript library -->
 		<script src="jquery-1.11.3.min.js"></script>
+		<script src="jquery-plugins/js.cookie.js"></script>
 		<script src="leaflet-0.7.3/leaflet-src.js"></script>
 		<script src="leaflet-plugins/Permalink.js"></script>
 		<script src="leaflet-plugins/Permalink.Layer.js"></script>
@@ -410,11 +411,18 @@
 				var $banner = $('.banner');
 				$banner.on('mousedown touchstart', function() {
 					$banner.remove();
+					$.cookie('bannerseen', 'yes', { expires: 1 })
 				});
 
 				map.on('mousedown touchstart', function() {
 					$banner.remove();
+					$.cookie('bannerseen', 'yes', { expires: 1 })
 				});
+
+				if($.cookie('bannerseen') == 'yes')
+				{
+					$banner.remove();
+				}
 				////////// END BANNER //////////
 			}
 		</script>
