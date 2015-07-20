@@ -113,11 +113,19 @@
 				);
 				border: 10px solid #606DBC;
 			}
+
+
+			.leaflet-popup-content ul,
+			.leaflet-popup-content li {
+				list-style-type: none;
+				margin-left: 0;
+				padding-left: 0;
+			}
 		</style>
 
 		<!-- load the leaflet javascript library -->
 		<script src="jquery-1.11.3.min.js"></script>
-		<script src="leaflet-0.7.3/leaflet.js"></script>
+		<script src="leaflet-0.7.3/leaflet-src.js"></script>
 		<script src="leaflet-plugins/Permalink.js"></script>
 		<script src="leaflet-plugins/Permalink.Layer.js"></script>
 		<script src="leaflet-plugins/Permalink.Draw.js"></script>
@@ -141,8 +149,8 @@
 					opacity: 0.50
 				});
 
-				var initial_overlays = ['landuse', 'ways', 'buildings', 'amenities'];
-				var overlays =         ['landuse', 'ways', 'buildings', 'amenities', 'noc', 'gpscoords'];
+				var initial_overlays = ['landuse', 'ways', 'buildings'];
+				var overlays =         ['landuse', 'ways', 'buildings', 'noc', 'gpscoords'];
 				var layers = [basemap];
 				var overlayers = {};
 				for (var i = 0; i < overlays.length; i++) {
@@ -175,6 +183,8 @@
 				window.map = map;
 				////////// END MAP SETUP //////////
 
+
+
 				////////// DRAWING SETUP //////////
 				var drawnItems;
 				if(!small)
@@ -202,6 +212,122 @@
 					});
 				}
 				////////// END DRAWING SETUP //////////
+
+
+
+				////////// INTERACTIVE AMENITY LAYER SETUP //////////
+				var amenityIcons = [];
+				$.each(['restrooms', 'shower', 'powerplug', 'catering', 'lan', 'firstaid', 'heavencloud'], function(idx, icon) {
+					amenityIcons[icon] = new L.Icon({
+						iconUrl: 'mapicons/cccamp15-icons/'+icon+'.color.svg',
+
+						iconSize:     [32, 32], // size of the icon
+						iconAnchor:   [16, 16], // point of the icon which will correspond to marker's location
+
+						//shadowUrl: 'leaf-shadow.png',
+						//shadowSize:   [50, 64], // size of the shadow
+						//shadowAnchor: [4, 62],  // the same for the shadow
+
+						popupAnchor:  [0, -16] // point from which the popup should open relative to the iconAnchor
+					});
+				});
+
+				amenityIcons['datenklo'] = new L.Icon({
+					iconUrl: 'mapicons/datenklo.svg',
+
+					iconSize:     [28, 28], // size of the icon
+					iconAnchor:   [14, 14], // point of the icon which will correspond to marker's location
+
+					//shadowUrl: 'leaf-shadow.png',
+					//shadowSize:   [50, 64], // size of the shadow
+					//shadowAnchor: [4, 62],  // the same for the shadow
+
+					popupAnchor:  [0, -14] // point from which the popup should open relative to the iconAnchor
+				});
+
+				var amenityLayer;
+				$.ajax({
+					url: '/api/amenities/',
+					dataType: 'json',
+					cache: true,
+					success: function(featureCollection)
+					{
+						amenityLayer = new L.GeoJSON(featureCollection, {
+							pointToLayer: function (feature, latlng) {
+								if(feature.properties.amenity == 'toilets')
+								{
+									return new L.Marker(latlng, {icon: amenityIcons.restrooms});
+								}
+								else if(feature.properties.amenity == 'shower')
+								{
+									return new L.Marker(latlng, {icon: amenityIcons.shower});
+								}
+								else if(feature.properties.amenity == 'hospital')
+								{
+									return new L.Marker(latlng, {icon: amenityIcons.firstaid});
+								}
+								else if(feature.properties.amenity == 'restaurant')
+								{
+									return new L.Marker(latlng, {icon: amenityIcons.catering});
+								}
+								else if(feature.properties.amenity == 'place_of_worship')
+								{
+									return new L.Marker(latlng, {icon: amenityIcons.heavencloud});
+								}
+
+
+								else if(feature.properties.building == 'datenklo')
+								{
+									return new L.Marker(latlng, {icon: amenityIcons.datenklo});
+								}
+								else if(feature.properties.power == 'cable_distribution_cabinet')
+								{
+									return new L.Marker(latlng, {icon: amenityIcons.powerplug});
+								}
+
+								return new L.Marker(latlng);
+							},
+
+							onEachFeature: function(feature, layer)
+							{
+								var lis = [];
+								$.each(['name', 'amenity', 'building', 'power', 'phone', 'website'], function(idx, tag) {
+									if(!feature.properties[tag])
+										return;
+
+									var value = feature.properties[tag];
+									var content = value;
+
+									if(tag == 'website')
+									{
+										content = $('<a>')
+											.attr('href', value)
+											.attr('target', '_blank')
+											.text(value.substr(0, value.indexOf('/', 8))+'/...')
+									}
+
+									lis.push(
+										$('<li>')
+											.append( $('<strong>').text(tag+': ') )
+											.append(content)
+									)
+								});
+
+
+								if(lis.length > 0)
+								{
+									layer.bindPopup(
+										$('<div>').append(
+											$('<ul>').append(lis)
+										).html()
+									);
+								}
+							}
+						});
+						amenityLayer.addTo(map);
+					}
+				})
+				////////// END INTERACTIVE AMENITY LAYER SETUP //////////
 
 
 
