@@ -358,6 +358,7 @@
 						});
 						amenityLayer.addTo(map);
 						layersControl.addOverlay(amenityLayer, 'amenities')
+						permalinkControl._update_layer();
 					}
 				})
 				////////// END INTERACTIVE AMENITY LAYER SETUP //////////
@@ -368,8 +369,9 @@
 				var layersControl = new L.Control.Layers({}, overlayers, {
 					collapsed: small
 				});
-				var permalinkControl = new L.Control.Permalink({layers: layersControl, drawnItems: drawnItems});
 				map.addControl(layersControl);
+
+				var permalinkControl = new L.Control.Permalink({layers: layersControl, drawnItems: drawnItems});
 				map.addControl(permalinkControl);
 
 				var scaleControl = new L.Control.Scale();
