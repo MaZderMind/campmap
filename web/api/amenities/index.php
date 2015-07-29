@@ -29,6 +29,7 @@ $q = $db->query("
 	WHERE
 		tags->'amenity' IN ('hospital', 'toilets', 'shower', 'restaurant') OR
 		tags->'building' IN ('datenklo') OR
+		(tags->'building' IN ('yes', 'tent') AND (exist(tags, 'phone') OR exist(tags, 'website'))) OR
 		tags->'power' IN ('cable_distribution_cabinet') OR
 		(tags->'amenity' = 'place_of_worship' AND tags->'place_of_worship' = 'himmel')
 
@@ -51,6 +52,7 @@ $q = $db->query("
 	WHERE
 		tags->'amenity' IN ('hospital', 'toilets', 'shower', 'restaurant') OR
 		tags->'building' IN ('datenklo') OR
+		(tags->'building' IN ('yes', 'tent') AND (exist(tags, 'phone') OR exist(tags, 'website'))) OR
 		tags->'power' IN ('cable_distribution_cabinet') OR
 		(tags->'amenity' = 'place_of_worship' AND tags->'place_of_worship' = 'himmel')
 ");
