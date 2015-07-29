@@ -1,5 +1,6 @@
 <html>
 	<head>
+		<meta charset="UTF-8" />
 		<title>The CampMap!</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
@@ -76,12 +77,23 @@
 					right: 10px;
 				}
 
-				.github-fork-ribbon-wrapper {
-					display: none;
+				.github-fork-ribbon-wrapper.right-bottom {
+					bottom: 16px;
+					height: 30px;
 				}
 
-				.banner .info2 {
-					display: none;
+				.github-fork-ribbon-wrapper.right-bottom .github-fork-ribbon {
+					-webkit-transform: none;
+					-moz-transform: none;
+					-ms-transform: none;
+					-o-transform: none;
+					transform: none;
+					top: 0;
+					right: 0;
+				}
+
+				.github-fork-ribbon a, .github-fork-ribbon a:hover {
+					width: 150px
 				}
 			}
 
@@ -467,12 +479,11 @@
 		<div class="banner">
 			<div class="sub warning">Warning! Danger! This is an <u>inoffical</u> map and it is <u>extreme beta</u>! Danger! Warning!</div>
 			<div class="sub info">Village-Areas are only <u>estimations</u>, there are no fences, you'll need to <u>negotiate</u> with your neighbors.</div>
-			<div class="sub info2">Only Top-Level Villages &gt;20 People are placed on the map.</div>
 		</div>
 
 		<div class="github-fork-ribbon-wrapper right-bottom">
 			<div class="github-fork-ribbon">
-				<a href="https://github.com/MaZderMind/campmap/" target="_blank">GitHub</a>
+				<a href="/about/">About</a>
 			</div>
 		</div>
 	</body>
