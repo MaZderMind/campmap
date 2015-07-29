@@ -8,7 +8,7 @@ foreach(['zoom', 'bbox', 'overlays'] as $parameter)
 	}
 }
 
-$allowed_layers = ['landuse', 'ways', 'buildings', 'tents', 'noc', 'gpscoords'];
+$allowed_layers = ['landuse', 'ways', 'buildings', 'noc', 'gpscoords', 'amenities'];
 
 $layers = array_intersect($allowed_layers, explode('.', $_GET['overlays']));
 $zoom = intval($_GET['zoom']);
