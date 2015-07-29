@@ -46,7 +46,11 @@ L.Control.Permalink.include({
 
 		var canvas = this.options.drawnItems;
 		var drawnItems = JSON.parse(p.drawnItems);
-		var newItems = new L.GeoJSON(drawnItems);
+		var newItems = new L.GeoJSON(drawnItems, {
+			style: {
+				'color': '#00ffff'
+			}
+		});
 		
 		canvas.eachLayer(canvas.removeLayer, canvas);
 		newItems.eachLayer(canvas.addLayer, canvas);
