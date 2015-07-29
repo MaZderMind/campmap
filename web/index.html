@@ -54,7 +54,7 @@
 
 			.banner {
 				position: absolute;
-				top: 30%;
+				top: 10%;
 				left: 30%;
 				right: 30%;
 
@@ -77,6 +77,10 @@
 				}
 
 				.github-fork-ribbon-wrapper {
+					display: none;
+				}
+
+				.banner .info2 {
 					display: none;
 				}
 			}
@@ -104,7 +108,7 @@
 				border: 10px solid #FF3200;
 			}
 			.banner .sub.info {
-				background: #FF3200 repeating-linear-gradient(
+				background: #606DBC repeating-linear-gradient(
 					45deg,
 					#606DBC,
 					#606DBC 10px,
@@ -112,6 +116,16 @@
 					#465298 20px
 				);
 				border: 10px solid #606DBC;
+			}
+			.banner .sub.info2 {
+				background: #60BC6D repeating-linear-gradient(
+					45deg,
+					#60BC6D,
+					#60BC6D 10px,
+					#469852 10px,
+					#469852 20px
+				);
+				border: 10px solid #60BC6D;
 			}
 
 
@@ -434,6 +448,7 @@
 		<div class="banner">
 			<div class="sub warning">Warning! Danger! This is an <u>inoffical</u> map and it is <u>extreme beta</u>! Danger! Warning!</div>
 			<div class="sub info">Village-Areas are only <u>estimations</u>, there are no fences, you'll need to <u>negotiate</u> with your neighbors.</div>
+			<div class="sub info2">Only Top-Level Villages &gt;20 People are placed on the map.</div>
 		</div>
 
 		<div class="github-fork-ribbon-wrapper right-bottom">
