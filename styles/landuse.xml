@@ -75,7 +75,7 @@
 		</Rule>
 		<Rule>
 			<Filter>[leisure] = 'park'</Filter>
-			<TextSymbolizer fill="&c_forest_text;" halo-fill="white" halo-radius="1.5" spacing="300" fontset-name="book-fonts" size="&sz_text;" placement="line">[name]</TextSymbolizer>
+			<TextSymbolizer fill="&c_forest_text;" halo-fill="white" halo-radius="1.5" spacing="300" fontset-name="book-fonts" size="&sz_text;" placement="interior">[name]</TextSymbolizer>
 		</Rule>
 	</Style>
 
