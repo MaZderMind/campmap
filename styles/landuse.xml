@@ -106,4 +106,34 @@
 			&datasource-settings;
 		</Datasource>
 	</Layer>
+
+	<Style name="landuse-points">
+		<Rule>
+			<Filter>[landuse] = 'residential' or [place] = 'village'</Filter>
+			<TextSymbolizer fill="&c_residential_text;" halo-fill="white" halo-radius="1.5" spacing="100" fontset-name="book-fonts" size="&sz_text;" placement="point" wrap-width="100">[name]</TextSymbolizer>
+		</Rule>
+	</Style>
+
+	<Layer name="landuse-points" status="on" srs="&srs900913;">
+		<StyleName>landuse-points</StyleName>
+
+		<Datasource>
+			<Parameter name="table">
+			(
+				SELECT
+					way,
+					replace(tags->'name', ';', ', ') AS name,
+					tags->'landuse' AS landuse,
+					tags->'place' AS place
+				FROM planet_osm_point
+				WHERE
+					(tags ? 'landuse') OR
+					(tags ? 'place')
+			) AS subq
+			</Parameter>
+			<Parameter name="geometry_field">way</Parameter>
+
+			&datasource-settings;
+		</Datasource>
+	</Layer>
 </Map>
