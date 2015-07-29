@@ -135,6 +135,23 @@
 				margin-left: 0;
 				padding-left: 0;
 			}
+
+			.leaflet-popup-content {
+				width: 200px;
+			}
+
+			.leaflet-popup-content strong {
+				float: left;
+				clear: both;
+				padding-right: 5px;
+			}
+			.leaflet-popup-content span,
+			.leaflet-popup-content a {
+				max-width: 230px;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				display: block;
+			}
 		</style>
 
 		<!-- load the leaflet javascript library -->
@@ -318,7 +335,7 @@
 										content = $('<a>')
 											.attr('href', value)
 											.attr('target', '_blank')
-											.text(value.substr(0, value.indexOf('/', 8))+'/...')
+											.text(value)
 									}
 
 									lis.push(
