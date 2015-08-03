@@ -27,7 +27,7 @@ $q = $db->query("
 	FROM
 		planet_osm_polygon
 	WHERE
-		tags->'amenity' IN ('hospital', 'toilets', 'shower', 'restaurant') OR
+		tags->'amenity' IN ('hospital', 'toilets', 'shower', 'restaurant', 'bar', 'recycling') OR
 		tags->'building' IN ('datenklo') OR
 		(tags->'building' IN ('yes', 'tent') AND (exist(tags, 'phone') OR exist(tags, 'website'))) OR
 		tags->'power' IN ('cable_distribution_cabinet') OR
@@ -50,7 +50,7 @@ $q = $db->query("
 	FROM
 		planet_osm_point
 	WHERE
-		tags->'amenity' IN ('hospital', 'toilets', 'shower', 'restaurant') OR
+		tags->'amenity' IN ('hospital', 'toilets', 'shower', 'restaurant', 'bar', 'recycling') OR
 		tags->'building' IN ('datenklo') OR
 		(tags->'building' IN ('yes', 'tent') AND (exist(tags, 'phone') OR exist(tags, 'website'))) OR
 		tags->'power' IN ('cable_distribution_cabinet') OR

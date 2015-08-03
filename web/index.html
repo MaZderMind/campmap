@@ -261,7 +261,7 @@
 
 				////////// INTERACTIVE AMENITY LAYER SETUP //////////
 				var amenityIcons = [];
-				$.each(['restrooms', 'shower', 'powerplug', 'catering', 'lan', 'firstaid', 'heavencloud'], function(idx, icon) {
+				$.each(['restrooms', 'shower', 'powerplug', 'catering', 'lan', 'firstaid', 'heavencloud', 'trash', 'drink'], function(idx, icon) {
 					amenityIcons[icon] = new L.Icon({
 						iconUrl: 'mapicons/cccamp15-icons/'+icon+'.color.svg',
 
@@ -298,36 +298,52 @@
 					{
 						amenityLayer = new L.GeoJSON(featureCollection, {
 							pointToLayer: function (feature, latlng) {
-								if(feature.properties.amenity == 'toilets')
+								var icon, props = feature.properties;
+
+								if(props.amenity == 'toilets')
 								{
-									return new L.Marker(latlng, {icon: amenityIcons.restrooms});
+									icon = amenityIcons.restrooms;
 								}
-								else if(feature.properties.amenity == 'shower')
+								else if(props.amenity == 'shower')
 								{
-									return new L.Marker(latlng, {icon: amenityIcons.shower});
+									icon = amenityIcons.shower;
 								}
-								else if(feature.properties.amenity == 'hospital')
+								else if(props.amenity == 'hospital')
 								{
-									return new L.Marker(latlng, {icon: amenityIcons.firstaid});
+									icon = amenityIcons.firstaid;
 								}
-								else if(feature.properties.amenity == 'restaurant')
+								else if(props.amenity == 'restaurant')
 								{
-									return new L.Marker(latlng, {icon: amenityIcons.catering});
+									icon = amenityIcons.catering;
 								}
-								else if(feature.properties.amenity == 'place_of_worship')
+								else if(props.amenity == 'place_of_worship')
 								{
-									return new L.Marker(latlng, {icon: amenityIcons.heavencloud});
+									icon = amenityIcons.heavencloud;
+								}
+								else if(props.amenity == 'recycling')
+								{
+									icon = amenityIcons.trash;
+								}
+								else if(props.amenity == 'bar')
+								{
+									icon = amenityIcons.drink;
 								}
 
 
-								else if(feature.properties.building == 'datenklo')
+								else if(props.building == 'datenklo')
 								{
-									return new L.Marker(latlng, {icon: amenityIcons.datenklo});
+									icon = amenityIcons.datenklo;
 								}
-								else if(feature.properties.power == 'cable_distribution_cabinet')
+								else if(props.power == 'cable_distribution_cabinet')
 								{
-									return new L.Marker(latlng, {icon: amenityIcons.powerplug});
+									icon = amenityIcons.powerplug;
 								}
+
+
+								if(icon) {
+									return new L.Marker(latlng, {icon: icon});
+								}
+
 
 								return new L.Marker(latlng);
 							},

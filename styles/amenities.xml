@@ -26,6 +26,14 @@
 			<PointSymbolizer file="../icons/cccamp15-icons/catering.color.svg" transform="scale(0.2)" />
 		</Rule>
 		<Rule>
+			<Filter>[amenity] = 'bar'</Filter>
+			<PointSymbolizer file="../icons/cccamp15-icons/drink.color.svg" transform="scale(0.2)" />
+		</Rule>
+		<Rule>
+			<Filter>[amenity] = 'recycling'</Filter>
+			<PointSymbolizer file="../icons/cccamp15-icons/trash.color.svg" transform="scale(0.2)" />
+		</Rule>
+		<Rule>
 			<Filter>[building] = 'datenklo'</Filter>
 			<ShieldSymbolizer file="../icons/datenklo.svg" transform="scale(0.04)" fill="&c_datenklo;" dy="40" halo-fill="white" halo-radius="1.5" fontset-name="book-fonts" size="&sz_text;">[name]</ShieldSymbolizer>
 		</Rule>
