@@ -65,7 +65,7 @@ foreach ($q as $row)
 
 	if($properties['power'] == 'cable_distribution_cabinet' && !$properties['website'])
 	{
-		$properties['website'] = 'https://events.ccc.de/camp/2015/wiki/Static:Power/DistributionBoxes#'.$properties['name'].'_.28'.$properties['rating'].'_CEE.29';
+		$properties['website'] = 'https://events.ccc.de/camp/2015/wiki/Power_DistributionBoxes#'.$properties['name'].'_.28'.$properties['rating'].'_CEE.29';
 	}
 
 	$features[] = [
