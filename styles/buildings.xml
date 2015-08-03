@@ -62,7 +62,7 @@
 
 	<Style name="tent-text">
 		<Rule>
-			<TextSymbolizer fill="&c_tent_text;" halo-fill="white" halo-radius="1.5" fontset-name="book-fonts" size="&sz_text;" placement="interior">[name]</TextSymbolizer>
+			<TextSymbolizer fill="&c_tent_text;" halo-fill="white" halo-radius="1.5" fontset-name="book-fonts" size="&sz_text;" placement="interior" wrap-before="true" wrap-width="100">[name]</TextSymbolizer>
 		</Rule>
 	</Style>
 
@@ -79,6 +79,8 @@
 				FROM planet_osm_polygon
 				WHERE
 					(tags->'building' = 'tent')
+				ORDER BY
+					char_length(tags->'name') ASC
 			) AS subq
 			</Parameter>
 			<Parameter name="geometry_field">way</Parameter>
