@@ -9,8 +9,10 @@
 	<!ENTITY c_railway_light "#FFFFFF">
 
 	<!ENTITY c_highway_footway "#00FF00">
-	<!ENTITY c_highway_service "#809BC0">
 	<!ENTITY c_highway_unclassified "#808080">
+
+	<!ENTITY c_highway_service "#809BC0">
+	<!ENTITY c_highway_service_text "#ABBBD1">
 
 	<!ENTITY c_fence "#aaaa00">
 ]>
@@ -86,12 +88,12 @@
 	<Style name="way-names">
 		<Rule>
 			<Filter>[highway] = 'footway' or [highway] = 'track' or [highway] = 'path'</Filter>
-			<TextSymbolizer fill="&c_highway_footway;" halo-fill="#666" halo-radius="1.5" fontset-name="book-fonts" spacing="250" size="&sz_text;" placement="line">[name]</TextSymbolizer>
+			<TextSymbolizer fill="&c_highway_footway;" halo-fill="#333" halo-radius="1.5" fontset-name="book-fonts" spacing="250" size="&sz_text;" placement="line">[name]</TextSymbolizer>
 		</Rule>
 
 		<Rule>
 			<Filter>[highway] = 'service'</Filter>
-			<TextSymbolizer fill="&c_highway_service;" halo-fill="white" halo-radius="1.5" fontset-name="book-fonts" spacing="250" size="&sz_text;" placement="line">[name]</TextSymbolizer>
+			<TextSymbolizer fill="&c_highway_service_text;" halo-fill="#333" halo-radius="1.5" fontset-name="book-fonts" spacing="250" size="&sz_text;" placement="line">[name]</TextSymbolizer>
 		</Rule>
 
 		<Rule>
