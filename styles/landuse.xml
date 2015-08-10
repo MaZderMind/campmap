@@ -94,11 +94,14 @@
 					tags->'leisure' AS leisure,
 					tags->'tourism' AS tourism
 				FROM planet_osm_polygon
-				WHERE
+				WHERE (
 					(tags ? 'landuse') OR
 					(tags ? 'natural') OR
 					(tags ? 'leisure') OR
 					(tags ? 'tourism')
+				) AND (
+					NOT exist(tags, 'hidden')
+				)
 			) AS subq
 			</Parameter>
 			<Parameter name="geometry_field">way</Parameter>

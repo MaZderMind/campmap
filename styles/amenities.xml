@@ -61,13 +61,16 @@
 					tags->'place_of_worship' AS place_of_worship,
 					tags->'power' AS power
 				FROM planet_osm_point
-				WHERE
+				WHERE (
 					(tags ? 'amenity') OR
 					(tags ? 'shop') OR
 					(tags ? 'leisure') OR
 					(tags ? 'power') OR
 					(tags->'building' = 'datenklo') OR
 					(tags->'natural' = 'tree')
+				) AND (
+					NOT exist(tags, 'hidden')
+				)
 				ORDER BY CASE
 					WHEN tags->'building' = 'datenklo'
 						THEN 20
@@ -102,13 +105,16 @@
 					tags->'place_of_worship' AS place_of_worship,
 					tags->'power' AS power
 				FROM planet_osm_polygon
-				WHERE
+				WHERE (
 					(tags ? 'amenity') OR
 					(tags ? 'shop') OR
 					(tags ? 'leisure') OR
 					(tags ? 'power') OR
 					(tags->'building' = 'datenklo') OR
 					(tags->'natural' = 'tree')
+				) AND (
+					NOT exist(tags, 'hidden')
+				)
 				ORDER BY CASE
 					WHEN tags->'building' = 'datenklo'
 						THEN 20
