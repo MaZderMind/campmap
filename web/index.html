@@ -169,13 +169,13 @@
 				position: absolute;
 				top: 10px;
 				left: 50%;
-    			transform: translate(-50%, 0);
-    			-webkit-transform: translate(-50%, 0);
-    			-moz-transform: translate(-50%, 0);
-    			background-color: white;
-    			padding: 3px;
-    			width: 50%;
-    			max-width: 400px;
+				transform: translate(-50%, 0);
+				-webkit-transform: translate(-50%, 0);
+				-moz-transform: translate(-50%, 0);
+				background-color: white;
+				padding: 3px;
+				width: 50%;
+				max-width: 400px;
 			}
 			#searchbar input {
 				font-size: 18px;
@@ -216,6 +216,14 @@
 
 				////////// MAP SETUP //////////
 
+				//old bing layer
+				var basemap = new L.BingLayer('AgUjrAV3ggamKtrsPI9ruw06v8vStpmRQlQ16te0eLfYKKF6ZLy-MIFx__84B_gQ', {
+					maxNativeZoom: 18,
+					maxZoom: 21,
+					attribution: '',
+					opacity: 0.50
+				});
+
 				//as WMS
 				/*var basemap = L.tileLayer.wms("http://isk.geobasis-bb.de/mapproxy/dop20/service?", {
 					layers: 'dop20c',
@@ -225,13 +233,13 @@
 				});*/
 				
 				//as seeded tiles
-				var basemap = new L.TileLayer('./tiles/mildenberg/{z}/{y}/{x}.png',{
+				/*var basemap = new L.TileLayer('./tiles/mildenberg/{z}/{y}/{x}.png',{
 					maxNativeZoom: 19,
 					maxZoom: 21,
 					attribution: '',
 
 					opacity: 0.50
-				});
+				});*/
 
 				var initial_overlays = ['landuse', 'ways', 'buildings'];
 				var overlays =         ['landuse', 'ways', 'buildings', 'noc', 'gpscoords'];
@@ -535,7 +543,7 @@
 				$('#searchsuggestions').empty();
 				if(searchtext && searchtext.length > 2)
 				{
-					$.get('http://151.217.214.78:51009/search?q='+searchtext, function(res){
+					$.get('http://camp.iris.skowron.biz/search?q='+searchtext, function(res){
 						if (res){
 							if(evt.keyCode === 13)
 							{
