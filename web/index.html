@@ -164,6 +164,36 @@
 				text-overflow: ellipsis;
 				display: block;
 			}
+
+			#searchbar {
+				position: absolute;
+				top: 10px;
+				left: 50%;
+				transform: translate(-50%, 0);
+				-webkit-transform: translate(-50%, 0);
+				-moz-transform: translate(-50%, 0);
+				background-color: white;
+				padding: 3px;
+				width: 50%;
+				max-width: 400px;
+			}
+			#searchbar input {
+				font-size: 18px;
+				width: 100%;
+				outline: gray;
+			}
+
+			.searchresult {
+				cursor: pointer;
+				width: auto;
+				font-family: sans-serif;
+				padding: 3px;
+				margin-top: 3px;
+			}
+			.searchresult:hover {
+				background-color: #cccccc;
+			}
+
 		</style>
 
 		<!-- load the leaflet javascript library -->
@@ -185,13 +215,31 @@
 				var small = $(window).width() < 1024;
 
 				////////// MAP SETUP //////////
+
+				//old bing layer
 				var basemap = new L.BingLayer('AgUjrAV3ggamKtrsPI9ruw06v8vStpmRQlQ16te0eLfYKKF6ZLy-MIFx__84B_gQ', {
 					maxNativeZoom: 18,
 					maxZoom: 21,
 					attribution: '',
-
 					opacity: 0.50
 				});
+
+				//as WMS
+				/*var basemap = L.tileLayer.wms("http://isk.geobasis-bb.de/mapproxy/dop20/service?", {
+					layers: 'dop20c',
+					format: 'image/png',
+					transparent: false,
+					maxZoom: 21
+				});*/
+				
+				//as seeded tiles
+				/*var basemap = new L.TileLayer('./tiles/mildenberg/{z}/{y}/{x}.png',{
+					maxNativeZoom: 19,
+					maxZoom: 21,
+					attribution: '',
+
+					opacity: 0.50
+				});*/
 
 				var initial_overlays = ['landuse', 'ways', 'buildings'];
 				var overlays =         ['landuse', 'ways', 'buildings', 'noc', 'gpscoords'];
@@ -225,6 +273,7 @@
 					zoomAnimation: L.Browser.touch
 				});
 				window.map = map;
+				window.geom = null;
 				////////// END MAP SETUP //////////
 
 
@@ -481,12 +530,60 @@
 					$banner.remove();
 				}
 				////////// END BANNER //////////
+
+				////////// SEARCHBAR ///////////
+				$('#searchinput').on('keyup', startSearch);
+				$('#searchinput').on('click', startSearch);
+
+				////////// END SEARCHBAR ///////
+			}
+
+			function startSearch(evt){
+				var searchtext = $('#searchinput').val()
+				$('#searchsuggestions').empty();
+				if(searchtext && searchtext.length > 2)
+				{
+					$.get('http://camp.iris.skowron.biz/search?q='+searchtext, function(res){
+						if (res){
+							if(evt.keyCode === 13)
+							{
+								if (res.length > 0)
+								{
+									showSearchResult(res[0])
+								}
+								return;
+							}
+							$('#searchsuggestions').empty();
+							$.each(res, function(index, value){
+								var resitem = $( "<div class='searchresult'>"+value.Name+"</div>" )
+								$('#searchsuggestions').append( resitem);
+								resitem.on('click', function(){
+									showSearchResult(value)
+								})
+							});
+						}
+					});
+				}
+			}
+
+			function showSearchResult(searchResult){
+				$('#searchsuggestions').empty();
+				if(window.geom){
+					map.removeLayer(window.geom)
+				}
+				window.geom = L.geoJson(searchResult.Geometry);
+				window.map.fitBounds(geom.getBounds());
+				window.geom.addTo(map);
 			}
 		</script>
 	</head>
 
 	<body onload="init();">
 		<div id="map"></div>
+		<div id="searchbar">
+			<input type="text" id="searchinput"/>
+			<div id="searchsuggestions"></div>
+		</div> 
 
 		<div class="banner">
 			<div class="sub warning">Warning! Danger! This is an <u>inoffical</u> map and it is <u>extreme beta</u>! Danger! Warning!</div>
