@@ -274,6 +274,7 @@
 				});
 				window.map = map;
 				window.geom = null;
+				window.lastSearchstring = "";
 				////////// END MAP SETUP //////////
 
 
@@ -541,8 +542,9 @@
 			function startSearch(evt){
 				var searchtext = $('#searchinput').val()
 				$('#searchsuggestions').empty();
-				if(searchtext && searchtext.length > 2)
+				if(searchtext && searchtext.length > 2 && window.lastSearchstring !== searchtext)
 				{
+					window.lastSearchstring = searchtext;
 					$.get('http://camp.iris.skowron.biz/search?q='+searchtext, function(res){
 						if (res){
 							if(evt.keyCode === 13)
